@@ -1,0 +1,555 @@
+/* ElSombrero2 Card Style - Enhanced Version */
+:root {
+  --card-border: 4px;
+  --card-color: rgba(21, 21, 21, 0.6);
+  --card-highlight1: #ff7707;
+  --card-highlight2: #ffbb00;
+  --card-radius: 20px;
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.08);
+}
+
+.timeline-card {
+  position: relative;
+  width: 450px;
+  height: 450px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: all 0.4s ease-in-out;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Glass shine effect */
+.timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    var(--glass-shine) 30%,
+    var(--glass-shine) 40%,
+    transparent 60%
+  );
+  transform: rotate(-45deg);
+  animation: shine 3s infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Glowing border effect */
+.timeline-card::after {
+  content: '';
+  position: absolute;
+  inset: var(--card-border);
+  background: var(--card-color);
+  border-radius: calc(var(--card-radius) - var(--card-border));
+  z-index: -1;
+  backdrop-filter: blur(5px);
+}
+
+/* Background circles */
+.timeline-card .circle {
+  position: absolute;
+  width: var(--circle-size);
+  height: var(--circle-size);
+  background: radial-gradient(
+    circle,
+    var(--card-highlight1),
+    var(--card-highlight2)
+  );
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0.15;
+  z-index: 1;
+  transition: all 0.5s ease;
+}
+
+.timeline-card:hover .circle {
+  filter: blur(25px);
+  opacity: 0.2;
+  transform: scale(1.1);
+}
+
+.timeline-card .circle:nth-child(1) {
+  top: 15%;
+  left: 15%;
+  animation: floatCircle 8s infinite alternate;
+}
+
+.timeline-card .circle.right {
+  top: 10%;
+  right: 15%;
+  width: 80px;
+  height: 80px;
+  opacity: 0.2;
+  animation: floatCircle 6s infinite alternate-reverse;
+}
+
+.timeline-card .circle.bottom {
+  bottom: 15%;
+  left: 30%;
+  width: 120px;
+  height: 120px;
+  opacity: 0.1;
+  animation: pulse 6s ease-in-out infinite alternate;
+}
+
+/* Image area */
+.timeline-card .timeline-image {
+  position: relative;
+  width: 100%;
+  height: 55%;
+  overflow: hidden;
+  z-index: 0;
+  border: none;
+}
+
+.timeline-card .timeline-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  z-index: 1;
+}
+
+.timeline-card .timeline-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  opacity: 0.85;
+  border: none;
+}
+
+.timeline-card:hover .timeline-image img {
+  transform: scale(1.1) rotate(-1deg);
+}
+
+/* Text content area */
+.timeline-card .timeline-card-content {
+  position: relative;
+  padding: 1.5rem;
+  z-index: 2;
+  color: #fff;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+  height: 45%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.timeline-card:hover .timeline-card-content {
+  transform: translateY(0);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.7) 40%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* Hide author section */
+.timeline-card .flex.items-center,
+span.flex.items-center {
+  display: none !important;
+}
+
+/* Adjust content spacing without author section */
+.timeline-card .timeline-card-content {
+  position: relative;
+  padding: 1.5rem;
+  z-index: 2;
+  color: #fff;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+  height: 45%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.timeline-date {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: var(--card-highlight1);
+}
+
+.timeline-category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.75rem;
+  backdrop-filter: blur(8px);
+}
+
+.timeline-card-content h3,
+.timeline-event-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  background: linear-gradient(to right, #fff, #e0e7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.timeline-card-content p,
+.timeline-event-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-y: auto;
+  max-height: calc(100% - 6rem);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+/* Remove scrollbars but keep smooth text truncation */
+.timeline-card-content::-webkit-scrollbar,
+.timeline-event-description::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+/* Learn more button styling */
+.learn-more-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--card-highlight2) !important;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  margin-top: auto;
+}
+
+.learn-more-btn:hover {
+  background: linear-gradient(
+    45deg,
+    rgba(255, 119, 7, 0.25),
+    rgba(255, 187, 0, 0.25)
+  );
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Description container */
+.description-container {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes shine {
+  0% {
+    left: -100%;
+    transition-property: left;
+  }
+  20%, 100% {
+    left: 100%;
+    transition-property: left;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.05;
+    transform: scale(0.8) translate(0, 0);
+  }
+  100% {
+    opacity: 0.15;
+    transform: scale(1.2) translate(10px, -10px);
+  }
+}
+
+@keyframes floatCircle {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(10px, 10px);
+  }
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Timeline layout */
+.timeline-dot {
+  background-color: currentColor;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+/* Dark mode compatibility - already dark by default */
+.dark-mode .timeline-card {
+  background: var(--card-color);
+}
+
+.dark-mode .timeline-card-content {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.8) 40%,
+    transparent 100%
+  );
+}
+
+/* Fix height issues */
+.timeline-event {
+  margin-bottom: 40px;
+}
+
+.timeline-content {
+  position: relative;
+  width: 100%;
+  background: transparent;
+}
+
+.timeline-content::before {
+  display: none;
+}
+
+/* Timeline container */
+.timeline-container {
+  position: relative;
+  padding: 1rem 0;
+  overflow: hidden;
+}
+
+/* Timeline line */
+.timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background-color: #e5e7eb;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Timeline event */
+.timeline-event {
+  position: relative;
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+/* Custom scrollbar for description */
+.timeline-event-description::-webkit-scrollbar {
+  width: 4px;
+}
+
+.timeline-event-description::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timeline-event-description::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.timeline-event-description::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Make scrollbar more visible */
+.timeline-card-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.timeline-card-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timeline-card-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.timeline-card-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Popular Timeline Cards */
+.popular-timeline .timeline-card {
+  width: 300px;
+  height: 400px;
+  margin: 1rem;
+  background: rgba(21, 21, 21, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.popular-timeline .timeline-image {
+  height: 50%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.popular-timeline .timeline-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.popular-timeline .timeline-card-content {
+  height: 50%;
+  padding: 1rem;
+  background: rgba(21, 21, 21, 0.8);
+  color: #fff;
+}
+
+.popular-timeline .timeline-event-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.popular-timeline .timeline-event-description {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Glassmorphism utility class */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.glassmorphism:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Animations */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.5);
+  }
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+/* Background pattern */
+.bg-pattern {
+  background-image: 
+    radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+  background-size: 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0;
+} 

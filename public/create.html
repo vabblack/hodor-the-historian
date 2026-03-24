@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hodor the Historian - Create New Timeline</title>
+  
+  <!-- Enhanced Font Loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/dark-theme.css">
+  <link rel="stylesheet" href="css/glass-theme.css">
+  
+  <style>
+    /* Global Typography & Base */
+    body {
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Colorful gradient background with glow effects */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(138, 43, 226, 0.4), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.3), transparent 25%),
+        radial-gradient(circle at 75% 80%, rgba(0, 0, 255, 0.35), transparent 30%),
+        radial-gradient(circle at 25% 70%, rgba(138, 43, 226, 0.3), transparent 25%);
+      filter: blur(40px);
+      z-index: -1;
+      opacity: 0.6;
+    }
+    
+    /* Background grid pattern with radial gradient mask */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      opacity: 0.2;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Enhanced Headings */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75em;
+    }
+
+    h1 { 
+      font-size: 3rem; 
+      line-height: 1.1; 
+      background: linear-gradient(to right, #ffffff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h2 { 
+      font-size: 2.5rem; 
+      line-height: 1.2; 
+      background: linear-gradient(to right, #ffffff, #93c5fd); 
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h3 { font-size: 1.75rem; line-height: 1.3; }
+
+    /* Navigation Styling - Enhanced with subtle animation */
+    nav.glassmorphism {
+      background: rgba(5, 5, 10, 0.85);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(78, 81, 128, 0.2);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    nav.glassmorphism .container {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    /* From Uiverse.io by jack0237 - Enhanced */ 
+    .form-container {
+      background: linear-gradient(#121520, #121520) padding-box,
+        linear-gradient(120deg, transparent 25%, #5046e5, #6366f1, #a855f7) border-box;
+      border: 2px solid transparent;
+      padding: 40px 30px;
+      font-size: 14px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-sizing: border-box;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(99, 102, 241, 0.3),
+        0 0 50px rgba(99, 102, 241, 0.2);
+      max-width: 900px;
+      margin: 0 auto;
+      transform: translateY(0);
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .heading {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-align: center;
+      background: linear-gradient(to right, #ffffff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .form-input {
+      color: white;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(129, 132, 251, 0.5);
+      border-radius: 8px;
+      padding: 14px 18px;
+      outline: none;
+      width: 100%;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-input:focus {
+      border-color: rgba(129, 132, 251, 0.9);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3), 0 0 15px rgba(99, 102, 241, 0.2);
+      background: rgba(30, 41, 59, 0.7);
+    }
+
+    .form-select {
+      color: white;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(129, 132, 251, 0.5);
+      border-radius: 8px;
+      padding: 14px 18px;
+      outline: none;
+      width: 100%;
+      transition: all 0.3s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a5b4fc'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-select:focus {
+      border-color: rgba(129, 132, 251, 0.9);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3), 0 0 15px rgba(99, 102, 241, 0.2);
+      background: rgba(30, 41, 59, 0.7);
+    }
+
+    .form-button {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .form-button:hover::before {
+      left: 100%;
+    }
+
+    .form-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+      background: linear-gradient(135deg, #4338ca, #4f46e5);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      position: relative;
+    }
+
+    .form-group label {
+      color: #c4c9ff;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .form-group-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+    }
+
+    @media (max-width: 640px) {
+      .form-group-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(129, 132, 251, 0.5);
+      border-radius: 8px;
+      margin-top: 10px;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Enhanced Nav Link with animation */
+    .nav-link-active {
+      color: #a5b4fc !important;
+      font-weight: 600 !important;
+      position: relative;
+    }
+    
+    .nav-link-active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #4f46e5, #a5b4fc);
+      border-radius: 2px;
+      animation: navPulse 2s infinite;
+    }
+    
+    @keyframes navPulse {
+      0% { opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { opacity: 0.7; }
+    }
+
+    /* Spinner Animation */
+    .spinner {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 0 auto;
+      border: 3px solid rgba(99, 102, 241, 0.3);
+      border-top-color: #6366f1;
+      animation: spinner 1s infinite linear;
+    }
+
+    @keyframes spinner {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Success Animation */
+    .success-checkmark {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      border-radius: 50%;
+      display: block;
+      stroke-width: 2;
+      stroke: #6366f1;
+      stroke-miterlimit: 10;
+      box-shadow: inset 0px 0px 0px #6366f1;
+      animation: success-fill .4s ease-in-out .4s forwards, success-scale .3s ease-in-out .9s both;
+      position: relative;
+      top: 5px;
+      right: 5px;
+      margin: 0 auto;
+    }
+
+    .success-checkmark .success-check-circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 2;
+      stroke-miterlimit: 10;
+      stroke: #6366f1;
+      fill: transparent;
+      animation: success-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+
+    .success-checkmark .success-check-path {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: success-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+
+    @keyframes success-stroke {
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes success-scale {
+      0%, 100% {
+        transform: none;
+      }
+      50% {
+        transform: scale3d(1.1, 1.1, 1);
+      }
+    }
+
+    @keyframes success-fill {
+      100% {
+        box-shadow: inset 0px 0px 0px 30px transparent;
+      }
+    }
+
+    /* Animated background glow orbs */
+    .animated-glow-orb {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(138, 43, 226, 0.6) 0%, rgba(138, 43, 226, 0.1) 60%, transparent 70%);
+      filter: blur(60px);
+      opacity: 0.6;
+      top: 30%;
+      left: 20%;
+      animation: orbFloat 15s ease-in-out infinite alternate;
+    }
+    
+    .animated-glow-orb.delay-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.6) 0%, rgba(99, 102, 241, 0.1) 60%, transparent 70%);
+      top: 50%;
+      left: 60%;
+      animation-delay: 2s;
+      animation-duration: 18s;
+    }
+    
+    .animated-glow-orb.delay-4 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.6) 0%, rgba(168, 85, 247, 0.1) 60%, transparent 70%);
+      top: 60%;
+      left: 30%;
+      animation-delay: 4s;
+      animation-duration: 20s;
+    }
+    
+    .animated-glow-orb.delay-6 {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(217, 70, 239, 0.6) 0%, rgba(217, 70, 239, 0.1) 60%, transparent 70%);
+      top: 40%;
+      left: 70%;
+      animation-delay: 6s;
+      animation-duration: 17s;
+    }
+    
+    @keyframes orbFloat {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(100px, -50px) scale(1.1);
+      }
+      100% {
+        transform: translate(-50px, 70px) scale(0.9);
+      }
+    }
+
+    /* Slightly brighter text */
+    body {
+      color: #f2f5fc;
+    }
+
+    /* Enhanced Grid pattern overlay styles */
+    .grid-pattern-overlay {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 70%, transparent 100%);
+      opacity: 0.4;
+      pointer-events: none;
+      position: relative;
+    }
+    
+    /* Add glow effect to grid */
+    .grid-pattern-overlay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      filter: blur(1px);
+      opacity: 0.7;
+      mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 70%, transparent 100%);
+    }
+
+    /* Add additional fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Raleway:wght@300;400;600;800&display=swap');
+    
+    /* Stylish heading styles */
+    .main-title {
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(to right, #ffffff 0%, #c7d2fe 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(165, 180, 252, 0.5);
+      position: relative;
+      overflow: hidden;
+      animation: title-glow 3s ease-in-out infinite alternate;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    
+    @keyframes title-glow {
+      0% {
+        text-shadow: 0 0 20px rgba(165, 180, 252, 0.3);
+      }
+      100% {
+        text-shadow: 0 0 40px rgba(165, 180, 252, 0.7), 0 0 80px rgba(99, 102, 241, 0.3);
+      }
+    }
+    
+    .subtitle {
+      font-family: 'Raleway', sans-serif;
+      color: rgba(226, 232, 240, 0.9);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      font-weight: 300;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(to right, #a5b4fc, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+      position: relative;
+    }
+    
+    .gradient-text::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #a5b4fc, transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: underline-reveal 1.5s ease-out forwards 0.5s;
+    }
+    
+    @keyframes underline-reveal {
+      to {
+        transform: scaleX(1);
+      }
+    }
+    
+    .reveal-text {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: reveal 1s cubic-bezier(0.5, 0, 0, 1) forwards;
+    }
+    
+    @keyframes reveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Navigation -->
+  <nav id="mainNav" class="fixed w-full z-50 glassmorphism transition-all duration-300">
+    <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center space-x-3">
+        <i class="fas fa-book-open text-indigo-400 text-xl"></i>
+        <a href="index.html" class="text-2xl font-bold text-white hover:text-indigo-300 transition-colors">
+          Hodor the Historian
+        </a>
+      </div>
+
+      <!-- Desktop Menu (Centered) -->
+      <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-6">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors nav-link" data-active="index">Home</a>
+        <a href="timelines.html" class="text-gray-300 hover:text-white transition-colors nav-link" data-active="timelines">My Timelines</a>
+        <a href="create.html" class="text-gray-300 hover:text-white transition-colors nav-link-active" data-active="create">Create New</a>
+      </div>
+
+      <!-- Actions / Mobile Toggle -->
+      <div class="flex items-center space-x-4">
+        <button id="theme-toggle" class="text-gray-300 hover:text-white focus:outline-none px-3 py-1">
+          <i class="fas fa-moon text-lg"></i>
+        </button>
+        <div class="md:hidden">
+          <button id="mobileMenuToggle" class="text-gray-300 hover:text-white focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden transition-all duration-300 ease-in-out bg-gray-800 bg-opacity-90 backdrop-blur-sm mt-1">
+      <div class="flex flex-col items-center space-y-4 py-6">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link" data-active="index">Home</a>
+        <a href="timelines.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link" data-active="timelines">My Timelines</a>
+        <a href="create.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link-active" data-active="create">Create New</a>
+        <button id="mobile-theme-toggle" class="text-gray-300 hover:text-white focus:outline-none text-lg">
+          <i class="fas fa-moon mr-2"></i> Toggle Dark Mode
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Create Timeline Section -->
+  <section class="py-6 px-4 mb-20 min-h-screen flex items-center justify-center relative">
+    <!-- Background grid pattern overlay -->
+    <div class="grid-pattern-overlay absolute inset-0 -z-10"></div>
+    
+    <!-- Background glow animation -->
+    <div class="absolute inset-0 overflow-hidden -z-20">
+      <div class="animated-glow-orb"></div>
+      <div class="animated-glow-orb delay-2"></div>
+      <div class="animated-glow-orb delay-4"></div>
+      <div class="animated-glow-orb delay-6"></div>
+    </div>
+    
+    <div class="w-full max-w-5xl mx-auto" style="margin-top: 12vh;">
+      <div class="form-container w-full max-w-3xl mx-auto">
+        <div id="create-timeline-form">
+          <form class="form">
+            <div class="form-group">
+              <label for="timelineTitle">Timeline Title</label>
+              <input type="text" id="timelineTitle" class="form-input" 
+                placeholder="e.g., World War II, Renaissance, History of Computing">
+            </div>
+            
+            <div class="form-group">
+              <label for="timelineType">Timeline Type</label>
+              <select id="timelineType" class="form-select">
+                <option value="historical">Historical Timeline</option>
+                <option value="biographical">Biographical Timeline</option>
+                <option value="cultural">Cultural Timeline</option>
+                <option value="scientific">Scientific Discovery Timeline</option>
+                <option value="custom">Custom Timeline</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Time Period</label>
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="startDate">Start Date</label>
+                  <input type="text" id="startDate" class="form-input" 
+                    placeholder="e.g., 1939, 1500s, 15th century">
+                </div>
+                <div class="form-group">
+                  <label for="endDate">End Date (Optional)</label>
+                  <input type="text" id="endDate" class="form-input" 
+                    placeholder="e.g., 1945, 1600s, Present">
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-hint">
+              <i class="fas fa-info-circle text-indigo-400"></i>
+              <span class="text-sm text-indigo-100">Our AI assistant will help generate a timeline based on your input. Feel free to edit and customize after generation.</span>
+            </div>
+            
+            <button id="generateTimelineBtn" type="button" class="glitch-button glitch-button-primary w-full" data-glitch="Generate Timeline">
+              <i class="fas fa-wand-magic-sparkles mr-2"></i> Generate Timeline
+            </button>
+          </form>
+        </div>
+        
+        <!-- Loading state (hidden by default) -->
+        <div id="timeline-generation-loading" class="hidden py-16">
+          <div class="flex flex-col items-center justify-center">
+            <div class="spinner mb-6"></div>
+            <h2 class="text-xl font-semibold text-white mb-2">Generating Your Timeline</h2>
+            <p class="text-gray-300 text-center max-w-md">
+              Our AI is researching historical events and creating your personalized timeline. This may take a few moments...
+            </p>
+          </div>
+        </div>
+        
+        <!-- Success state (hidden by default) -->
+        <div id="timeline-generation-success" class="hidden py-12">
+          <div class="text-center">
+            <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <circle class="success-check-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="success-check-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+            <h2 class="text-xl font-semibold text-white mb-2">Timeline Created Successfully!</h2>
+            <p class="text-gray-300 mb-8">Your timeline has been generated and is ready to view.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+              <a id="viewTimelineBtn" href="#" class="glitch-button glitch-button-primary" data-glitch="View Timeline">
+                <i class="fas fa-eye mr-2"></i> View Timeline
+              </a>
+              <button id="editAgainBtn" class="glitch-button glitch-button-secondary" data-glitch="Edit Timeline">
+                Edit Timeline
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8" style="background-color: #030305; border-top: 1px solid rgba(78, 81, 128, 0.2);">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center space-x-4">
+          <i class="fas fa-copyright text-indigo-300/70"></i>
+          <span class="text-indigo-300/70">2023 Hodor the Historian. All rights reserved.</span>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center space-x-4">
+          <a href="#" class="text-indigo-300/70 hover:text-indigo-100 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-indigo-300/70 hover:text-indigo-100 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('hidden');
+      this.querySelector('i').classList.toggle('fa-bars');
+      this.querySelector('i').classList.toggle('fa-times');
+    });
+
+    // Dark Theme Toggle Functionality
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+    const darkThemeLink = document.querySelector('link[href="css/dark-theme.css"]');
+    
+    // Check if dark theme preference is stored
+    const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
+    
+    // Initial theme setup
+    if (!isDarkTheme) {
+      darkThemeLink.disabled = true;
+      updateThemeIcons(false);
+    } else {
+      updateThemeIcons(true);
+    }
+    
+    // Function to toggle theme
+    function toggleDarkTheme() {
+      const isDark = darkThemeLink.disabled;
+      darkThemeLink.disabled = !isDark;
+      localStorage.setItem('darkTheme', !isDark);
+      updateThemeIcons(!isDark);
+    }
+    
+    // Update moon/sun icons
+    function updateThemeIcons(isDark) {
+      if (isDark) {
+        themeToggleBtn.innerHTML = '<i class="fas fa-sun text-lg"></i>';
+        mobileThemeToggleBtn.innerHTML = '<i class="fas fa-sun mr-2"></i> Toggle Light Mode';
+      } else {
+        themeToggleBtn.innerHTML = '<i class="fas fa-moon text-lg"></i>';
+        mobileThemeToggleBtn.innerHTML = '<i class="fas fa-moon mr-2"></i> Toggle Dark Mode';
+      }
+    }
+    
+    // Add event listeners for theme toggle
+    themeToggleBtn.addEventListener('click', toggleDarkTheme);
+    mobileThemeToggleBtn.addEventListener('click', toggleDarkTheme);
+
+    // Generate timeline button functionality
+    document.getElementById('generateTimelineBtn').addEventListener('click', function() {
+      const timelineTitle = document.getElementById('timelineTitle').value.trim();
+      
+      if (!timelineTitle) {
+        alert('Please enter a timeline title');
+        return;
+      }
+      
+      // Hide the form and show loading state
+      document.getElementById('create-timeline-form').classList.add('hidden');
+      document.getElementById('timeline-generation-loading').classList.remove('hidden');
+      
+      // Collect all form data
+      const timelineData = {
+        title: timelineTitle,
+        type: document.getElementById('timelineType').value,
+        startDate: document.getElementById('startDate').value.trim(),
+        endDate: document.getElementById('endDate').value.trim()
+      };
+
+      // Simulate API request to generate timeline (replace with actual API call)
+      setTimeout(() => {
+        // For demo, generate dummy data
+        const dummyEvents = [
+          { id: 1, title: "Event 1", date: timelineData.startDate || "1939", description: "Major historical event description" },
+          { id: 2, title: "Event 2", date: timelineData.endDate || "1945", description: "Another major historical event" }
+        ];
+        
+        // Store the timeline data in sessionStorage
+        sessionStorage.setItem('currentTimeline', JSON.stringify({
+          meta: timelineData,
+          events: dummyEvents
+        }));
+        
+        // Hide loading and show success
+        document.getElementById('timeline-generation-loading').classList.add('hidden');
+        document.getElementById('timeline-generation-success').classList.remove('hidden');
+        
+        // Set the view timeline link
+        const viewTimelineBtn = document.getElementById('viewTimelineBtn');
+        viewTimelineBtn.href = 'timeline.html?title=' + encodeURIComponent(timelineTitle);
+      }, 2000); // Simulate 2 second API call
+    });
+
+    // Edit Again button functionality
+    document.getElementById('editAgainBtn').addEventListener('click', function() {
+      document.getElementById('timeline-generation-success').classList.add('hidden');
+      document.getElementById('create-timeline-form').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html> 

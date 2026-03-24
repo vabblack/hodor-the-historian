@@ -1,0 +1,193 @@
+/* Custom styles for HistoryWeaver */
+
+:root {
+  --primary: #4366A3;
+  --secondary: #6b7280;
+  --accent: #facc15;
+  --dark: #121826;
+  --dark-light: #1f2937;
+}
+
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Chat message animations */
+.bot-message, .user-message {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* User message styling */
+.user-message {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-message > div {
+  background-color: #e6f2ff; /* Light blue for user messages */
+}
+
+/* Timeline specific styles */
+.timeline-dot {
+  cursor: pointer;
+  transition: r 0.2s ease;
+}
+
+.timeline-dot:hover {
+  r: 8;
+}
+
+/* Event details animation */
+.event-details.visible {
+  animation: slideUp 0.3s ease-in-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Map container */
+#eventMap {
+  z-index: 0;
+}
+
+/* Loading spinner */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(67, 102, 163, 0.2);
+  border-left-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Gradient background for special features */
+.gradient-bg {
+  background: linear-gradient(135deg, var(--primary) 0%, #718ad4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Animations for UI elements */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Chat container animations */
+#chatContainer {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#chatContainer:not(.hidden) {
+  animation: slideInRight 0.3s forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Timeline container animations */
+#timelineContainer {
+  transition: all 0.4s ease-in-out;
+}
+
+#timelineContainer:not(.hidden) {
+  animation: fadeIn 0.4s forwards;
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.2s ease;
+}
+
+/* Format icons hover effect */
+.grid.grid-cols-6 > div {
+  transition: all 0.3s ease;
+}
+
+.grid.grid-cols-6 > div:hover {
+  transform: translateY(-5px);
+}
+
+/* Toast animation */
+.opacity-0 {
+  opacity: 0;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+}
+
+.duration-500 {
+  transition-duration: 500ms;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .timeline-container {
+    height: 40vh;
+  }
+  
+  .grid.grid-cols-6 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  #chatContainer {
+    width: 100%;
+    height: 80%;
+    bottom: 0;
+    right: 0;
+    border-radius: 12px 12px 0 0;
+  }
+} 

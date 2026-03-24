@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hodor the Historian</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .grid {
+            height: 100vh;
+            width: 100vw;
+            background-image: linear-gradient(to right, #0f0f10 1px, transparent 1px),
+                linear-gradient(to bottom, #0f0f10 1px, transparent 1px);
+            background-size: 1rem 1rem;
+            background-position: center center;
+            position: fixed;
+            z-index: -1;
+            filter: blur(1px);
+        }
+
+        .chat-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(
+                rgba(0, 0, 0, 0),
+                #402fb5 5%,
+                rgba(0, 0, 0, 0) 10%,
+                rgba(0, 0, 0, 0) 50%,
+                #cf30aa 60%,
+                rgba(0, 0, 0, 0) 65%
+            );
+            filter: blur(30px);
+            opacity: 0.4;
+            z-index: -1;
+            transition: transform 2s;
+        }
+
+        .chat-container:hover .glow-effect {
+            transform: rotate(180deg);
+        }
+
+        .message-input {
+            background-color: #010201;
+            border: none;
+            width: 100%;
+            height: 56px;
+            border-radius: 10px;
+            color: white;
+            padding-inline: 59px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .message-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(207, 48, 170, 0.3);
+        }
+
+        .message-input::placeholder {
+            color: #c0b9c0;
+        }
+
+        .send-button {
+            background: linear-gradient(180deg, #161329, black, #1d1b4b);
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .send-button:hover {
+            background: linear-gradient(180deg, #1d1b4b, #161329, black);
+            transform: scale(1.05);
+        }
+
+        .message-bubble {
+            background: rgba(16, 16, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(207, 48, 170, 0.2);
+            transition: all 0.3s;
+        }
+
+        .message-bubble:hover {
+            border-color: rgba(207, 48, 170, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .bot-icon {
+            background: linear-gradient(135deg, #402fb5, #cf30aa);
+            transition: all 0.3s;
+        }
+
+        .bot-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(207, 48, 170, 0.4);
+        }
+        
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px;
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+            transform: translateY(0);
+            transition: all 0.3s;
+        }
+        
+        .typing-indicator span:nth-child(1) {
+            background-color: rgba(52, 211, 153, 0.8); /* emerald-400 */
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+            background-color: rgba(167, 139, 250, 0.8); /* violet-400 */
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+            background-color: rgba(251, 113, 133, 0.8); /* rose-400 */
+        }
+        
+        @keyframes typing {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* Features Section Styles */
+        .features-section {
+            position: relative;
+            padding: 5rem 0;
+            background-color: #0a0a15;
+            overflow: hidden;
+        }
+
+        .features-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: linear-gradient(to right, rgba(64, 47, 181, 0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(64, 47, 181, 0.2) 1px, transparent 1px);
+            background-size: 2rem 2rem;
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(0.5px);
+        }
+
+        .features-glow-1 {
+            position: absolute;
+            width: 35vw;
+            height: 35vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(207, 48, 170, 0.3) 0%, rgba(64, 47, 181, 0.1) 50%, transparent 70%);
+            top: -10%;
+            right: -10%;
+            filter: blur(60px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: float 15s ease-in-out infinite alternate;
+        }
+
+        .features-glow-2 {
+            position: absolute;
+            width: 30vw;
+            height: 30vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(64, 47, 181, 0.3) 0%, rgba(133, 214, 255, 0.1) 50%, transparent 70%);
+            bottom: -15%;
+            left: -5%;
+            filter: blur(50px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: float 18s ease-in-out infinite alternate-reverse;
+        }
+
+        .features-glow-3 {
+            position: absolute;
+            width: 25vw;
+            height: 25vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, rgba(255, 153, 0, 0.1) 50%, transparent 70%);
+            top: 30%;
+            left: 20%;
+            filter: blur(40px);
+            z-index: 0;
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(-5%, 5%);
+            }
+            100% {
+                transform: translate(5%, -5%);
+            }
+        }
+
+        .feature-card {
+            background: rgba(16, 16, 32, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(100, 100, 185, 0.3);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            height: 100%;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #402fb5, #cf30aa, #ffcc00);
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(64, 47, 181, 0.2),
+                0 0 60px rgba(207, 48, 170, 0.1);
+            border-color: rgba(119, 100, 255, 0.5);
+        }
+
+        .feature-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #402fb5, #cf30aa);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(207, 48, 170, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(207, 48, 170, 0.5);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(90deg, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-description {
+            color: #a5b4fc;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .feature-link {
+            color: #ffcc00;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .feature-link:hover {
+            color: #ffdd33;
+            transform: translateX(4px);
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #ffffff, #a5b4fc, #cf30aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, #402fb5, #cf30aa);
+            border-radius: 3px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #a5b4fc;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+            margin-top: 1.5rem;
+        }
+
+        /* Get Started Section Styles */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(64, 47, 181, 0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(64, 47, 181, 0.2) 1px, transparent 1px);
+            background-size: 1.5rem 1.5rem;
+            opacity: 0.4;
+        }
+
+        .step-number {
+            font-family: 'Arial', sans-serif;
+            font-weight: 900;
+            color: rgba(79, 70, 229, 0.1);
+            line-height: 1;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col">
+    <div class="grid"></div>
+    
+    <!-- Main content container -->
+    <div class="container mx-auto px-4 py-12 flex-grow flex items-center justify-center">
+        <div id="gemini-chat-modal" class="fixed inset-0 z-50 hidden overflow-auto bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center">
+            <div class="group bg-neutral-900 bg-opacity-95 backdrop-blur-lg rounded-2xl shadow-inner shadow-emerald-500/10 w-full max-w-2xl mx-4 md:mx-auto border border-emerald-700/30 transform transition-all duration-500 hover:scale-[1.01] relative overflow-hidden cursor-pointer">
+                <!-- Animated background elements - inspired by reference design -->
+                <div class="after:duration-700 before:duration-700 duration-700 
+                     group-hover:before:translate-x-8 group-hover:before:-translate-y-8  
+                     group-hover:after:translate-x-8 group-hover:after:translate-y-12 
+                     after:absolute after:w-16 after:h-16 after:bg-rose-400 after:rounded-full after:-z-10 after:blur-xl after:bottom-32 after:right-16
+                     before:absolute before:w-24 before:h-24 before:bg-emerald-400 before:rounded-full before:-z-10 before:blur-xl before:top-20 before:right-16">
+                </div>
+                <div class="absolute -left-16 -bottom-16 w-32 h-32 bg-violet-500/70 rounded-full blur-xl opacity-50 group-hover:translate-x-5 group-hover:translate-y-5 duration-700 z-0"></div>
+                
+                <div class="flex justify-between items-center p-5 border-b border-emerald-700/20 bg-gradient-to-r from-neutral-900 to-neutral-900 relative z-10">
+                    <div class="flex items-center">
+                        <div class="bg-gradient-to-r from-emerald-400 to-violet-400 rounded-full p-3 mr-3 shadow-lg transform transition-all duration-500">
+                            <i class="fas fa-robot text-white text-xl"></i>
+                        </div>
+                        <h3 class="font-extrabold text-xl text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-violet-300 tracking-wide">Hodor the Historian</h3>
+                    </div>
+                    <button id="close-gemini-chat-btn" class="text-gray-300 hover:text-white focus:outline-none transition-all duration-300 transform hover:scale-110 hover:rotate-90">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+                
+                <div id="gemini-chat-messages" class="p-6 h-[450px] overflow-y-auto bg-opacity-30 bg-neutral-950 backdrop-filter backdrop-blur-md relative z-10">
+                    <div class="mb-5 flex">
+                        <div class="flex-shrink-0 mr-3">
+                            <div class="bg-gradient-to-r from-emerald-400 to-violet-400 rounded-full p-3 shadow-lg hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-robot text-white text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="bg-neutral-800 bg-opacity-80 rounded-lg p-4 max-w-xs md:max-w-md text-gray-50 shadow-lg border border-emerald-700/20 hover:-translate-y-1 transition-all duration-300">
+                            <p class="text-lg">Hodor! (Hello! I'm Hodor the Historian. How can I help you hold your history today?)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-5 border-t border-emerald-700/20 bg-gradient-to-r from-neutral-900 to-neutral-900 relative z-10">
+                    <form id="gemini-chat-form" class="flex relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/10 to-violet-400/10 rounded-lg blur opacity-50"></div>
+                        <input type="text" id="gemini-chat-input" class="flex-grow px-5 py-3 bg-neutral-800 bg-opacity-70 border border-emerald-700/30 text-gray-50 text-lg rounded-l-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-inner relative z-10" placeholder="Ask Hodor about history...">
+                        <button type="submit" class="bg-gradient-to-r from-emerald-400 to-violet-400 text-white px-5 py-3 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-lg relative z-10 overflow-hidden group transition-all duration-300">
+                            <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-emerald-500 to-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <i class="fas fa-paper-plane text-lg relative z-10 group-hover:scale-125 transition-transform duration-300"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Features Section -->
+    <section id="features" class="py-20 md:py-28 relative overflow-hidden" style="background-color: #0a0a15;">
+        <!-- Background Elements -->
+        <div class="features-grid"></div>
+        <div class="features-glow-1"></div>
+        <div class="features-glow-2"></div>
+        <div class="features-glow-3"></div>
+        
+        <div class="container mx-auto px-4 md:px-6 relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in-up visible section-title">
+                Why Choose Hodor the Historian?
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+                <!-- Feature 1: AI Assistance -->
+                <div class="glassmorphism-card p-8 text-center feature-card fade-in-up visible">
+                    <div class="feature-card-icon inline-flex items-center justify-center w-16 h-16 rounded-full mb-6">
+                        <i class="fas fa-brain fa-2x"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 feature-title">AI-Powered Suggestions</h3>
+                    <p class="text-gray-400 leading-relaxed feature-description">
+                        Get intelligent suggestions for events, dates, and context based on your topic, making research faster and timelines richer.
+                    </p>
+                    <div class="mt-4">
+                        <a href="javascript:void(0)" class="feature-link inline-flex items-center">
+                            Learn more <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Feature 2: Interactive Visualization -->
+                <div class="glassmorphism-card p-8 text-center feature-card fade-in-up visible">
+                    <div class="feature-card-icon inline-flex items-center justify-center w-16 h-16 rounded-full mb-6">
+                        <i class="fas fa-palette fa-2x"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 feature-title">Beautiful &amp; Interactive</h3>
+                    <p class="text-gray-400 leading-relaxed feature-description">
+                        Choose from various stunning themes. Engage your audience with timelines they can click, explore, and interact with.
+                    </p>
+                    <div class="mt-4">
+                        <a href="javascript:void(0)" class="feature-link inline-flex items-center">
+                            View examples <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Easy Collaboration & Sharing -->
+                <div class="glassmorphism-card p-8 text-center feature-card fade-in-up visible">
+                    <div class="feature-card-icon inline-flex items-center justify-center w-16 h-16 rounded-full mb-6">
+                        <i class="fas fa-share-alt fa-2x"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 feature-title">Collaborate &amp; Share</h3>
+                    <p class="text-gray-400 leading-relaxed feature-description">
+                        Work together with others in real-time. Easily share your creations online or embed them on your website or blog.
+                    </p>
+                    <div class="mt-4">
+                        <a href="javascript:void(0)" class="feature-link inline-flex items-center">
+                            Sharing options <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Added fourth feature -->
+            <div class="mt-10 max-w-lg mx-auto">
+                <div class="glassmorphism-card p-8 text-center feature-card fade-in-up visible">
+                    <div class="feature-card-icon inline-flex items-center justify-center w-16 h-16 rounded-full mb-6">
+                        <i class="fas fa-mobile-alt fa-2x"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 feature-title">Mobile-Optimized Experience</h3>
+                    <p class="text-gray-400 leading-relaxed feature-description">
+                        Create and view your timelines on any device. Our responsive design ensures a seamless experience from desktop to mobile.
+                    </p>
+                    <div class="mt-4">
+                        <a href="javascript:void(0)" class="feature-link inline-flex items-center">
+                            Try on mobile <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Get Started Section -->
+    <section class="py-20 relative overflow-hidden" style="background-color: #080815;">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 opacity-30 z-0">
+            <div class="absolute top-0 left-0 w-full h-full bg-grid-pattern"></div>
+            <div class="absolute top-10 right-10 w-72 h-72 bg-purple-500 rounded-full filter blur-[100px] opacity-20"></div>
+            <div class="absolute bottom-10 left-20 w-80 h-80 bg-blue-500 rounded-full filter blur-[100px] opacity-20"></div>
+            <div class="absolute top-1/2 left-1/3 w-60 h-60 bg-yellow-500 rounded-full filter blur-[100px] opacity-10"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="section-title">Get Started in Minutes</h2>
+                <p class="section-subtitle">Creating your interactive historical timeline is quick and easy with Hodor</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Step 1 -->
+                <div class="relative">
+                    <!-- Step Number -->
+                    <div class="absolute -top-10 -left-10 text-9xl font-bold opacity-10 text-indigo-500">1</div>
+                    
+                    <div class="feature-card p-8 h-full flex flex-col items-center text-center relative z-10">
+                        <div class="feature-icon mb-6">
+                            <i class="fas fa-lightbulb text-white text-xl"></i>
+                        </div>
+                        <h3 class="feature-title mb-4">Define Your Topic</h3>
+                        <p class="feature-description">Enter the subject or timeframe for your timeline.</p>
+                        
+                        <!-- Connector Line (only visible on desktop) -->
+                        <div class="hidden md:block absolute top-1/2 -right-4 w-8 h-1 bg-gradient-to-r from-indigo-500 to-transparent"></div>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="relative">
+                    <!-- Step Number -->
+                    <div class="absolute -top-10 -left-10 text-9xl font-bold opacity-10 text-indigo-500">2</div>
+                    
+                    <div class="feature-card p-8 h-full flex flex-col items-center text-center relative z-10">
+                        <div class="feature-icon mb-6">
+                            <i class="fas fa-calendar-plus text-white text-xl"></i>
+                        </div>
+                        <h3 class="feature-title mb-4">Add Events (or Let AI Help)</h3>
+                        <p class="feature-description">Manually input key dates and descriptions, or use AI suggestions.</p>
+                        
+                        <!-- Connector Line (only visible on desktop) -->
+                        <div class="hidden md:block absolute top-1/2 -right-4 w-8 h-1 bg-gradient-to-r from-indigo-500 to-transparent"></div>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="relative">
+                    <!-- Step Number -->
+                    <div class="absolute -top-10 -left-10 text-9xl font-bold opacity-10 text-indigo-500">3</div>
+                    
+                    <div class="feature-card p-8 h-full flex flex-col items-center text-center relative z-10">
+                        <div class="feature-icon mb-6">
+                            <i class="fas fa-share-nodes text-white text-xl"></i>
+                        </div>
+                        <h3 class="feature-title mb-4">Customize & Share</h3>
+                        <p class="feature-description">Choose a visual style, refine details, and share your interactive timeline.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="/create" class="inline-block px-8 py-4 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                    Create Your Timeline Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatForm = document.getElementById('gemini-chat-form');
+            const chatInput = document.getElementById('gemini-chat-input');
+            const chatMessages = document.getElementById('gemini-chat-messages');
+            const closeButton = document.getElementById('close-gemini-chat-btn');
+            
+            // Handle form submission
+            chatForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const userInput = chatInput.value.trim();
+                if (!userInput) return;
+                
+                // Add user message to chat
+                addMessage('user', userInput);
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // Add loading indicator
+                const loadingIndicatorId = addLoadingIndicator();
+                
+                try {
+                    // Get response from Gemini API
+                    const response = await generateGeminiResponse(userInput);
+                    
+                    // Remove loading indicator
+                    removeLoadingIndicator(loadingIndicatorId);
+                    
+                    // Add bot response to chat
+                    addMessage('bot', response);
+                } catch (error) {
+                    // Remove loading indicator
+                    removeLoadingIndicator(loadingIndicatorId);
+                    
+                    // Add error message
+                    addMessage('bot', "Hodor! (I'm having trouble connecting to my historical knowledge base. Please try again in a moment.)");
+                    console.error('Error in Gemini API call:', error);
+                }
+            });
+            
+            // Close button functionality
+            closeButton.addEventListener('click', function() {
+                const chatContainer = document.querySelector('.chat-container');
+                chatContainer.classList.add('scale-0', 'opacity-0');
+                setTimeout(() => {
+                    chatContainer.style.display = 'none';
+                }, 300);
+            });
+            
+            // Function to add a message to the chat
+            function addMessage(sender, message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('mb-5', 'flex', 'opacity-0', 'transform', 'translate-y-4');
+                
+                if (sender === 'user') {
+                    messageDiv.classList.add('justify-end');
+                    messageDiv.innerHTML = `
+                        <div class="bg-neutral-800 bg-opacity-80 rounded-lg p-4 max-w-xs md:max-w-md text-gray-50 shadow-lg border border-emerald-700/20 hover:-translate-y-1 transition-all duration-300">
+                            <p class="text-lg">${message}</p>
+                        </div>
+                        <div class="flex-shrink-0 ml-3">
+                            <div class="bg-gradient-to-r from-violet-400 to-emerald-400 rounded-full p-3 shadow-lg hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-user text-white text-lg"></i>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="flex-shrink-0 mr-3">
+                            <div class="bg-gradient-to-r from-emerald-400 to-violet-400 rounded-full p-3 shadow-lg hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-robot text-white text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="bg-neutral-800 bg-opacity-80 rounded-lg p-4 max-w-xs md:max-w-md text-gray-50 shadow-lg border border-emerald-700/20 hover:-translate-y-1 transition-all duration-300">
+                            <p class="text-lg">${message}</p>
+                        </div>
+                    `;
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Add enhanced entrance animation
+                setTimeout(() => {
+                    messageDiv.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    messageDiv.style.opacity = '1';
+                    messageDiv.style.transform = 'translateY(0)';
+                }, 50);
+            }
+            
+            // Function to add loading indicator
+            function addLoadingIndicator() {
+                const loadingId = 'loading-' + Date.now();
+                const loadingDiv = document.createElement('div');
+                loadingDiv.id = loadingId;
+                loadingDiv.classList.add('mb-5', 'flex', 'opacity-0', 'transform', 'translate-y-4');
+                loadingDiv.innerHTML = `
+                    <div class="flex-shrink-0 mr-3">
+                        <div class="bg-gradient-to-r from-emerald-400 to-violet-400 rounded-full p-3 shadow-lg">
+                            <i class="fas fa-robot text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="bg-neutral-800 bg-opacity-80 rounded-lg p-4 max-w-xs md:max-w-md text-gray-50 shadow-lg border border-emerald-700/20">
+                        <div class="typing-indicator">
+                            <span class="bg-emerald-400"></span>
+                            <span class="bg-violet-400"></span>
+                            <span class="bg-rose-400"></span>
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(loadingDiv);
+                
+                // Add enhanced entrance animation
+                setTimeout(() => {
+                    loadingDiv.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    loadingDiv.style.opacity = '1';
+                    loadingDiv.style.transform = 'translateY(0)';
+                }, 50);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                return loadingId;
+            }
+            
+            // Function to remove loading indicator
+            function removeLoadingIndicator(loadingId) {
+                const loadingDiv = document.getElementById(loadingId);
+                if (loadingDiv) {
+                    loadingDiv.remove();
+                }
+            }
+            
+            // Function to generate response from Gemini API
+            async function generateGeminiResponse(prompt) {
+                try {
+                    // Normalize input before sending to server
+                    const normalizedPrompt = prompt.trim();
+                    
+                    const response = await fetch('/api/gemini', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: normalizedPrompt })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return data.response;
+                } catch (error) {
+                    console.error('Error in Gemini API call:', error);
+                    throw error;
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

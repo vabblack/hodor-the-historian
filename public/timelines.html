@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hodor the Historian - My Timelines</title>
+  
+  <!-- Enhanced Font Loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/dark-theme.css">
+  <link rel="stylesheet" href="css/glass-theme.css">
+  
+  <style>
+    /* Global Typography & Base */
+    body {
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Colorful gradient background with glow effects */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(138, 43, 226, 0.4), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.3), transparent 25%),
+        radial-gradient(circle at 75% 80%, rgba(0, 0, 255, 0.35), transparent 30%),
+        radial-gradient(circle at 25% 70%, rgba(138, 43, 226, 0.3), transparent 25%);
+      filter: blur(40px);
+      z-index: -1;
+      opacity: 0.6;
+    }
+    
+    /* Background grid pattern with radial gradient mask */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      opacity: 0.2;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Enhanced Headings */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75em;
+    }
+
+    h1 { 
+      font-size: 3.5rem; 
+      line-height: 1.1; 
+      background: linear-gradient(to right, #ffffff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h2 { 
+      font-size: 2.5rem; 
+      line-height: 1.2; 
+      background: linear-gradient(to right, #ffffff, #93c5fd); 
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h3 { font-size: 1.75rem; line-height: 1.3; }
+
+    /* Navigation Styling - Enhanced with subtle animation */
+    nav.glassmorphism {
+      background: rgba(5, 5, 10, 0.85);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(78, 81, 128, 0.2);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    nav.glassmorphism .container {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    /* From Uiverse.io by menezes11 - Glowing border button */
+    .glow-button {
+      position: relative;
+      padding: 1em 1.8em;
+      outline: none;
+      border: 1px solid #202030;
+      background: #111118;
+      color: #ae00ff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 15px;
+      overflow: hidden;
+      transition: 0.2s;
+      border-radius: 0;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .glow-button:hover {
+      box-shadow: 0 0 10px #ae00ff, 0 0 25px #001eff, 0 0 50px #ae00ff;
+      transition-delay: 0.6s;
+    }
+
+    .glow-button span {
+      position: absolute;
+    }
+
+    .glow-button span:nth-child(1) {
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #ae00ff);
+    }
+
+    .glow-button:hover span:nth-child(1) {
+      left: 100%;
+      transition: 0.7s;
+    }
+
+    .glow-button span:nth-child(3) {
+      bottom: 0;
+      right: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #001eff);
+    }
+
+    .glow-button:hover span:nth-child(3) {
+      right: 100%;
+      transition: 0.7s;
+      transition-delay: 0.35s;
+    }
+
+    .glow-button span:nth-child(2) {
+      top: -100%;
+      right: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, #ae00ff);
+    }
+
+    .glow-button:hover span:nth-child(2) {
+      top: 100%;
+      transition: 0.7s;
+      transition-delay: 0.17s;
+    }
+
+    .glow-button span:nth-child(4) {
+      bottom: -100%;
+      left: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(360deg, transparent, #001eff);
+    }
+
+    .glow-button:hover span:nth-child(4) {
+      bottom: 100%;
+      transition: 0.7s;
+      transition-delay: 0.52s;
+    }
+
+    .glow-button:active {
+      background: #ae00af;
+      background: linear-gradient(to top right, #ae00af, #001eff);
+      color: #bfbfbf;
+      box-shadow: 0 0 8px #ae00ff, 0 0 8px #001eff, 0 0 8px #ae00ff;
+      transition: 0.1s;
+    }
+
+    .glow-button:active span:nth-child(1),
+    .glow-button:active span:nth-child(2),
+    .glow-button:active span:nth-child(3),
+    .glow-button:active span:nth-child(4) {
+      transition: none;
+      transition-delay: none;
+    }
+    
+    /* Dark variant */
+    .glow-button-dark {
+      background: #090912;
+      border-color: #151525;
+      color: #ae00ff;
+    }
+    
+    /* Enhanced Active Nav Link with animation */
+    .nav-link-active {
+      color: #a5b4fc !important;
+      font-weight: 600 !important;
+      position: relative;
+    }
+    
+    .nav-link-active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #4f46e5, #a5b4fc);
+      border-radius: 2px;
+      animation: navPulse 2s infinite;
+    }
+    
+    @keyframes navPulse {
+      0% { opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { opacity: 0.7; }
+    }
+    
+    /* Grid pattern overlay styles */
+    .grid-pattern-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+    
+    /* Page header gradient background */
+    .page-header {
+      background: #030305;
+      position: relative;
+      overflow: hidden;
+      padding-top: 8rem;
+      padding-bottom: 6rem;
+      border-bottom: 1px solid rgba(78, 81, 128, 0.2);
+    }
+    
+    /* Page header colorful gradient background */
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.2), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1), transparent 30%),
+        radial-gradient(circle at 65% 75%, rgba(0, 0, 255, 0.15), transparent 35%),
+        radial-gradient(circle at 35% 85%, rgba(138, 43, 226, 0.12), transparent 30%);
+      filter: blur(35px);
+      z-index: 0;
+      opacity: 0.4;
+      animation: pulse-glow 10s ease-in-out infinite alternate;
+    }
+    
+    @keyframes pulse-glow {
+      0% { opacity: 0.5; filter: blur(35px); }
+      50% { opacity: 0.7; filter: blur(45px); }
+      100% { opacity: 0.5; filter: blur(35px); }
+    }
+
+    /* Enhanced Glassmorphism for Cards with hover effects */
+    .glassmorphism-card {
+      background: rgba(15, 18, 25, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(78, 81, 128, 0.2);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    .glassmorphism-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(78, 81, 128, 0.3);
+      border-color: rgba(99, 102, 241, 0.4);
+      background: rgba(10, 12, 20, 0.8);
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #ffffff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+      background: linear-gradient(135deg, #4338ca, #4f46e5);
+    }
+
+    /* Enhanced Shimmer Effect */
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 1;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-secondary {
+      background: rgba(30, 41, 59, 0.5);
+      color: #e2e8f0;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      backdrop-filter: blur(5px);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(30, 41, 59, 0.7);
+      color: #ffffff;
+      border-color: rgba(99, 102, 241, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Animated background styles */
+    .animated-bg {
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.2), transparent 40%),
+        radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.15), transparent 30%);
+      opacity: 0.4;
+      filter: blur(40px);
+      transition: transform 0.5s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-300 min-h-screen">
+  <!-- Navigation -->
+  <nav id="mainNav" class="fixed w-full z-50 glassmorphism transition-all duration-300">
+    <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center space-x-3">
+        <i class="fas fa-book-open text-indigo-400 text-xl"></i>
+        <a href="index.html" class="text-2xl font-bold text-white hover:text-indigo-300 transition-colors">
+          Hodor the Historian
+        </a>
+      </div>
+
+      <!-- Desktop Menu (Centered) -->
+      <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-6">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors nav-link" data-active="index">Home</a>
+        <a href="timelines.html" class="text-gray-300 hover:text-white transition-colors nav-link-active" data-active="timelines">My Timelines</a>
+        <a href="create.html" class="text-gray-300 hover:text-white transition-colors nav-link" data-active="create">Create New</a>
+      </div>
+
+      <!-- Actions / Mobile Toggle -->
+      <div class="flex items-center space-x-4">
+        <button id="theme-toggle" class="text-gray-300 hover:text-white focus:outline-none px-3 py-1">
+          <i class="fas fa-moon text-lg"></i>
+        </button>
+        <div class="md:hidden">
+          <button id="mobileMenuToggle" class="text-gray-300 hover:text-white focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden transition-all duration-300 ease-in-out bg-gray-800 bg-opacity-90 backdrop-blur-sm mt-1">
+      <div class="flex flex-col items-center space-y-4 py-6">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link" data-active="index">Home</a>
+        <a href="timelines.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link-active" data-active="timelines">My Timelines</a>
+        <a href="create.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link" data-active="create">Create New</a>
+        <button id="mobile-theme-toggle" class="text-gray-300 hover:text-white focus:outline-none text-lg">
+          <i class="fas fa-moon mr-2"></i> Toggle Dark Mode
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Animated Background -->
+  <div class="animated-bg fixed inset-0 -z-10 pointer-events-none"></div>
+
+  <!-- Page Header -->
+  <header class="page-header relative">
+    <div class="grid-pattern-overlay"></div>
+    <div class="container mx-auto px-4 md:px-6 relative z-10">
+      <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">
+            My Timelines
+          </h1>
+          <p class="text-lg md:text-xl text-indigo-100 max-w-2xl mb-6">
+            Hodor! (Explore, manage, and create your interactive historical journeys)
+          </p>
+        </div>
+        <div class="mt-6 md:mt-0">
+          <a href="create.html" class="glow-button glow-button-dark">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Create New Timeline
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Timelines Grid -->
+  <main class="bg-gray-900 pb-16">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Timeline Cards -->
+        <a href="timeline.html?id=ww2&title=World War II: Global Conflict&period=1939-1945" class="glassmorphism-card animate-fade-in rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105">
+          <div class="relative overflow-hidden">
+            <img 
+              src="https://images.pexels.com/photos/730564/pexels-photo-730564.jpeg" 
+              alt="World War II Timeline" 
+              class="w-full h-64 object-cover transition-transform duration-700 ease-in-out hover:scale-110"
+            >
+            <div class="absolute top-4 right-4 bg-indigo-600/80 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm">
+              Public
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap mb-4 gap-2">
+              <span class="tag px-3 py-1 bg-red-900/40 text-red-300 rounded-full text-xs flex items-center">
+                <i class="fas fa-fighter-jet mr-2"></i> Military History
+              </span>
+              <span class="tag px-3 py-1 bg-gray-800/70 text-gray-300 rounded-full text-xs flex items-center">
+                <i class="fas fa-calendar mr-2"></i> 1939-1945
+              </span>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-3">World War II: Global Conflict</h3>
+            <p class="text-purple-200 mb-4 line-clamp-3">
+              A comprehensive timeline exploring the major events, battles, and turning points of World War II.
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center space-x-2">
+                <img 
+                  src="https://placehold.co/40x40/4f46e5/FFFFFF?text=JD" 
+                  alt="User" 
+                  class="w-8 h-8 rounded-full border-2 border-indigo-600/50"
+                >
+                <span class="text-purple-300 text-sm">John Doe</span>
+              </div>
+              <div class="flex items-center space-x-3 text-purple-300">
+                <span class="flex items-center">
+                  <i class="fas fa-eye mr-1"></i> 1.2K
+                </span>
+                <span class="flex items-center">
+                  <i class="fas fa-heart mr-1"></i> 456
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- More Timeline Cards (similar structure) -->
+        <a href="timeline.html?id=space-race&title=The Space Race: Cold War Rivalry&period=1957-1975" class="glassmorphism-card animate-fade-in rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105">
+          <div class="relative overflow-hidden">
+            <img 
+              src="https://images.pexels.com/photos/23769/pexels-photo.jpg" 
+              alt="Space Race Timeline" 
+              class="w-full h-64 object-cover transition-transform duration-700 ease-in-out hover:scale-110"
+            >
+            <div class="absolute top-4 right-4 bg-purple-600/80 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm">
+              Private
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap mb-4 gap-2">
+              <span class="tag px-3 py-1 bg-purple-900/40 text-purple-300 rounded-full text-xs flex items-center">
+                <i class="fas fa-rocket mr-2"></i> Space Exploration
+              </span>
+              <span class="tag px-3 py-1 bg-gray-800/70 text-gray-300 rounded-full text-xs flex items-center">
+                <i class="fas fa-calendar mr-2"></i> 1957-1975
+              </span>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-3">The Space Race: Cold War Rivalry</h3>
+            <p class="text-purple-200 mb-4 line-clamp-3">
+              Explore the intense technological competition between the United States and Soviet Union.
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center space-x-2">
+                <img 
+                  src="https://placehold.co/40x40/4f46e5/FFFFFF?text=JD" 
+                  alt="User" 
+                  class="w-8 h-8 rounded-full border-2 border-indigo-600/50"
+                >
+                <span class="text-purple-300 text-sm">John Doe</span>
+              </div>
+              <div class="flex items-center space-x-3 text-purple-300">
+                <span class="flex items-center">
+                  <i class="fas fa-eye mr-1"></i> 890
+                </span>
+                <span class="flex items-center">
+                  <i class="fas fa-heart mr-1"></i> 321
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="timeline.html?id=computing&title=Evolution of Computing&period=1940-2023" class="glassmorphism-card animate-fade-in rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105">
+          <div class="relative overflow-hidden">
+            <img 
+              src="https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg" 
+              alt="Computing Evolution Timeline" 
+              class="w-full h-64 object-cover transition-transform duration-700 ease-in-out hover:scale-110"
+            >
+            <div class="absolute top-4 right-4 bg-pink-600/80 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm">
+              Collaborative
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex flex-wrap mb-4 gap-2">
+              <span class="tag px-3 py-1 bg-pink-900/40 text-pink-300 rounded-full text-xs flex items-center">
+                <i class="fas fa-microchip mr-2"></i> Technology
+              </span>
+              <span class="tag px-3 py-1 bg-gray-800/70 text-gray-300 rounded-full text-xs flex items-center">
+                <i class="fas fa-calendar mr-2"></i> 1940-2023
+              </span>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-3">Evolution of Computing</h3>
+            <p class="text-purple-200 mb-4 line-clamp-3">
+              A journey through the transformative milestones of computer technology.
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center space-x-2">
+                <img 
+                  src="https://placehold.co/40x40/4f46e5/FFFFFF?text=JD" 
+                  alt="User" 
+                  class="w-8 h-8 rounded-full border-2 border-indigo-600/50"
+                >
+                <span class="text-purple-300 text-sm">John Doe</span>
+              </div>
+              <div class="flex items-center space-x-3 text-purple-300">
+                <span class="flex items-center">
+                  <i class="fas fa-eye mr-1"></i> 1.5K
+                </span>
+                <span class="flex items-center">
+                  <i class="fas fa-heart mr-1"></i> 678
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with enhanced social links -->
+  <footer class="py-8" style="background-color: #030305; border-top: 1px solid rgba(78, 81, 128, 0.2);">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center space-x-4">
+          <i class="fas fa-copyright text-indigo-300/70"></i>
+          <span class="text-indigo-300/70">2023 Hodor the Historian. All rights reserved.</span>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center space-x-4">
+          <a href="#" class="text-indigo-300/70 hover:text-indigo-100 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-indigo-300/70 hover:text-indigo-100 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Image URLs for timelines
+    const timelineImages = {
+      'World War II Timeline': 'https://images.pexels.com/photos/730564/pexels-photo-730564.jpeg',
+      'Space Race Timeline': 'https://images.pexels.com/photos/23769/pexels-photo.jpg',
+      'Computing Evolution Timeline': 'https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg'
+    };
+
+    // Replace images on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Select all timeline card images
+      const images = document.querySelectorAll('.timeline-card img');
+      
+      images.forEach(img => {
+        const altText = img.getAttribute('alt');
+        
+        // Check if we have a matching image URL
+        if (timelineImages[altText]) {
+          // Set the image source
+          img.src = timelineImages[altText];
+        }
+      });
+      
+      // Add scroll animation
+      const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.timeline-card');
+        elements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const isVisible = rect.top < window.innerHeight - 100;
+          
+          if (isVisible) {
+            el.classList.add('animate-fade-in');
+          }
+        });
+      };
+      
+      window.addEventListener('scroll', animateOnScroll);
+      animateOnScroll(); // Initial check
+    });
+
+    // Mobile Menu Toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('hidden');
+        this.querySelector('i').classList.toggle('fa-bars');
+        this.querySelector('i').classList.toggle('fa-times');
+      });
+    }
+    
+    // Add parallax effect to background - FIX: Check if element exists
+    const animatedBg = document.querySelector('.animated-bg');
+    document.addEventListener('mousemove', (e) => {
+      if (animatedBg) {
+        const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+        const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+        animatedBg.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      }
+    });
+
+    // Add click handler for timeline cards
+    document.querySelectorAll('.timeline-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Get the href
+        const href = this.getAttribute('href');
+        // Extract parameters
+        const params = new URLSearchParams(href.split('?')[1]);
+        
+        // Example timeline data structure
+        const timelineData = {
+          id: params.get('id'),
+          title: params.get('title'),
+          period: params.get('period'),
+          timeline: [
+            {
+              id: 1,
+              title: "Event 1",
+              date: "1939",
+              description: "Description of event 1"
+            },
+            {
+              id: 2,
+              title: "Event 2",
+              date: "1940",
+              description: "Description of event 2"
+            }
+          ]
+        };
+
+        // Store timeline info in sessionStorage for use in timeline.html
+        sessionStorage.setItem('currentTimeline', JSON.stringify(timelineData));
+
+        // You can also make an API call here to fetch the actual timeline data
+        fetch(`/api/timeline/${params.get('id')}`)
+          .then(response => response.json())
+          .then(data => {
+            sessionStorage.setItem('currentTimeline', JSON.stringify(data));
+          })
+          .catch(error => {
+            console.error('Error fetching timeline:', error);
+          });
+      });
+    });
+
+    // Function to parse and display timeline data
+    function displayTimelineData(timelineData) {
+      if (!timelineData) return;
+      
+      const events = timelineData.timeline;
+      if (!events || !Array.isArray(events)) return;
+
+      // Sort events by date
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      // Create timeline display
+      const timelineContainer = document.createElement('div');
+      timelineContainer.className = 'timeline-container';
+
+      events.forEach(event => {
+        const eventElement = document.createElement('div');
+        eventElement.className = 'timeline-event';
+        eventElement.innerHTML = `
+          <h3>${event.title}</h3>
+          <span class="date">${event.date}</span>
+          <p>${event.description}</p>
+        `;
+        timelineContainer.appendChild(eventElement);
+      });
+
+      // Add to page
+      const timelinePreview = document.querySelector('.timeline-preview');
+      if (timelinePreview) {
+        timelinePreview.appendChild(timelineContainer);
+      }
+    }
+
+    // Check for existing timeline data
+    const savedTimelineData = sessionStorage.getItem('currentTimeline');
+    if (savedTimelineData) {
+      displayTimelineData(JSON.parse(savedTimelineData));
+    }
+
+    // Button click handlers - FIX: Check if elements exist
+    const shareTimelineBtn = document.getElementById('shareTimelineBtn');
+    if (shareTimelineBtn) {
+      shareTimelineBtn.addEventListener('click', function() {
+        // Get the current URL
+        const url = window.location.href;
+        
+        // Check if the browser supports the clipboard API
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(url)
+            .then(() => alert('Timeline link copied to clipboard!'))
+            .catch(err => console.error('Failed to copy:', err));
+        } else {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = url;
+          document.body.appendChild(textArea);
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            alert('Timeline link copied to clipboard!');
+          } catch (err) {
+            console.error('Failed to copy:', err);
+          }
+          document.body.removeChild(textArea);
+        }
+      });
+    }
+
+    const downloadTimelineBtn = document.getElementById('downloadTimelineBtn');
+    if (downloadTimelineBtn) {
+      downloadTimelineBtn.addEventListener('click', function() {
+        const timelineData = JSON.parse(sessionStorage.getItem('currentTimeline') || '{}');
+        const dataStr = JSON.stringify(timelineData, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = window.URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `timeline-${timelineData.id || 'export'}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      });
+    }
+
+    const aiChatBtn = document.getElementById('aiChatBtn');
+    if (aiChatBtn) {
+      aiChatBtn.addEventListener('click', function() {
+        // Open AI chat interface
+        const chatContainer = document.createElement('div');
+        chatContainer.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50';
+        chatContainer.innerHTML = `
+          <div class="bg-gray-800 p-6 rounded-xl w-full max-w-2xl mx-4">
+            <h3 class="text-xl font-bold mb-4">Chat with AI Assistant</h3>
+            <div class="chat-messages h-96 overflow-y-auto mb-4 p-4 bg-gray-700 rounded-lg"></div>
+            <div class="flex gap-2">
+              <input type="text" class="flex-1 px-4 py-2 rounded-lg bg-gray-700 text-white" placeholder="Ask about this timeline...">
+              <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Send</button>
+            </div>
+            <button class="absolute top-4 right-4 text-gray-400 hover:text-white" onclick="this.parentElement.parentElement.remove()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `;
+        document.body.appendChild(chatContainer);
+      });
+    }
+
+    const editTimelineBtn = document.getElementById('editTimelineBtn');
+    if (editTimelineBtn) {
+      editTimelineBtn.addEventListener('click', function() {
+        window.location.href = 'edit.html' + window.location.search;
+      });
+    }
+
+    // View toggle functionality - FIX: Check if elements exist
+    const viewToggleBtn = document.getElementById('viewToggleBtn');
+    const viewToggleText = document.getElementById('viewToggleText');
+    const timelineContainer = document.querySelector('.timeline-container');
+
+    // Only run view toggle logic if all elements exist
+    if (viewToggleBtn && viewToggleText && timelineContainer) {
+      let isTimelineView = true;
+      
+      viewToggleBtn.addEventListener('click', function() {
+        isTimelineView = !isTimelineView;
+        
+        if (isTimelineView) {
+          timelineContainer.classList.remove('poster-view');
+          timelineContainer.classList.add('timeline-view');
+          viewToggleText.textContent = 'Timeline View';
+          viewToggleBtn.querySelector('i').className = 'fas fa-clock mr-2';
+        } else {
+          timelineContainer.classList.remove('timeline-view');
+          timelineContainer.classList.add('poster-view');
+          viewToggleText.textContent = 'Poster View';
+          viewToggleBtn.querySelector('i').className = 'fas fa-th-large mr-2';
+        }
+      });
+
+      // Initialize view
+      timelineContainer.classList.add('timeline-view');
+    }
+  </script>
+</body>
+</html>

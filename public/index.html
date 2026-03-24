@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hodor the Historian - Hold the history!</title>
+  <!-- Enhanced Font Loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/dark-theme.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Raleway:wght@300;400;600;800&display=swap');
+
+    /* Global Typography & Base */
+    body {
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Colorful gradient background with glow effects */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(138, 43, 226, 0.4), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.3), transparent 25%),
+        radial-gradient(circle at 75% 80%, rgba(0, 0, 255, 0.35), transparent 30%),
+        radial-gradient(circle at 25% 70%, rgba(138, 43, 226, 0.3), transparent 25%);
+      filter: blur(40px);
+      z-index: -1;
+      opacity: 0.6;
+    }
+    
+    /* Background grid pattern with radial gradient mask */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      opacity: 0.2;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Enhanced Headings */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75em;
+    }
+
+    h1 { 
+      font-size: 3.5rem; 
+      line-height: 1.1; 
+      background: linear-gradient(to right, #ffffff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h2 { 
+      font-size: 2.5rem; 
+      line-height: 1.2; 
+      background: linear-gradient(to right, #ffffff, #93c5fd); 
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h3 { font-size: 1.75rem; line-height: 1.3; }
+
+    /* Navigation Styling - Enhanced with subtle animation */
+    nav.glassmorphism {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    nav.glassmorphism .container {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    
+    /* Improved Hero Section with animated gradient */
+    .hero-gradient {
+      background: #000000;
+      position: relative;
+      overflow: hidden;
+      padding-top: 10rem;
+      padding-bottom: 8rem;
+      border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+    }
+    
+    /* Hero colorful gradient background */
+    .hero-gradient::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.5), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.4), transparent 30%),
+        radial-gradient(circle at 65% 75%, rgba(0, 0, 255, 0.45), transparent 35%),
+        radial-gradient(circle at 35% 85%, rgba(138, 43, 226, 0.4), transparent 30%);
+      filter: blur(35px);
+      z-index: 0;
+      opacity: 0.7;
+      animation: pulse-glow 10s ease-in-out infinite alternate;
+    }
+    
+    @keyframes pulse-glow {
+      0% { opacity: 0.5; filter: blur(35px); }
+      50% { opacity: 0.7; filter: blur(45px); }
+      100% { opacity: 0.5; filter: blur(35px); }
+    }
+
+    /* Enhanced Glassmorphism for Cards with hover effects */
+    .glassmorphism-card {
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    .glassmorphism-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.6);
+    }
+
+    /* Feature Card Enhancements with 3D effect */
+    .feature-card-icon {
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s ease;
+      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+    }
+    
+    .glassmorphism-card:hover .feature-card-icon {
+      background: rgba(99, 102, 241, 0.25);
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Refined Button Styles with enhanced animations */
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #ffffff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+      background: linear-gradient(135deg, #4338ca, #4f46e5);
+    }
+
+    /* Enhanced Shimmer Effect */
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 1;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-secondary {
+      background: rgba(30, 41, 59, 0.5);
+      color: #e2e8f0;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      backdrop-filter: blur(5px);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(30, 41, 59, 0.7);
+      color: #ffffff;
+      border-color: rgba(99, 102, 241, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Sections Styling with enhanced backgrounds */
+    #features, #how-it-works, #testimonials {
+      padding: 6rem 0;
+      position: relative;
+    }
+    
+    #how-it-works {
+      background: rgba(15, 23, 42, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #how-it-works::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI3NjUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IHgxPSI3MS41OCUiIHkxPSIxNi4yMTUlIiB4Mj0iMCUiIHkyPSIxMDAlIiBpZD0iYSI+PHN0b3Agc3RvcC1jb2xvcj0iIzYzNjZGMSIgc3RvcC1vcGFjaXR5PSIuMDUiIG9mZnNldD0iMCUiLz48c3RvcCBzdG9wLWNvbG9yPSIjNjM2NkYxIiBzdG9wLW9wYWNpdHk9IjAiIG9mZnNldD0iMTAwJSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxwYXRoIGQ9Ik0wIDczLjM3M0MxOTQuODMxLTMwLjIyNSAzMDEuMDIgNi4yNDMgMzE5LjYwNSAxMDQuNDU1YzE4LjU4NCA5OC4yMTIgMTUyLjA4NyAxMDIuNDY4IDQwMC41MDkgMTIuNzdDODM5LjUyOSA1My43MDcgMTA2My43NyAxNi4yMDkgMTMxMS42NDggNjcuMTA0YzE2NS4zMiAzMy45NDQgMjA5LjA1IDkxLjQzNCAxMzEuMTkgMTcyLjQ2OWwtMTM4Ljg5NiAxNDQuNzQ2Yy01MS45MDMgNTQuMTUyLTEzNy4wOSA4NS44LTI1NS41NiA5NC45NDctMzUzLjA4OCAyNy40MzctNTY4LjgzMy02OC43NDYtNjQ3LjIzMi0yODguNTQ3QzM1MC4yOTQtMzYuNjQ3IDE5MC43NzgtNDAuNDE3IDAgNzMuMzczelx+IiBmaWxsPSJ1cmwoI2EpIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3;
+      transform: scaleY(-1);
+      z-index: -1;
+    }
+    
+    /* Enhanced Step Circles with improved animation */
+    .step-circle {
+      background: linear-gradient(135deg, #4f46e5, #818cf8);
+      color: white;
+      border-radius: 50%;
+      width: 3.5rem;
+      height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .step-circle::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 50%;
+      border: 2px solid rgba(129, 140, 248, 0.3);
+      animation: pulse 2.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      70% {
+        transform: scale(1.2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+    
+    /* Enhanced CTA Section with animated background */
+    .cta-section {
+      background: #000000;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(138, 43, 226, 0.45), transparent 25%),
+        radial-gradient(circle at 70% 30%, rgba(255, 215, 0, 0.35), transparent 25%),
+        radial-gradient(circle at 85% 70%, rgba(0, 0, 255, 0.4), transparent 30%);
+      filter: blur(30px);
+      z-index: 0;
+      opacity: 0.6;
+      animation: cta-glow 12s ease-in-out infinite alternate;
+    }
+    
+    @keyframes cta-glow {
+      0% { opacity: 0.5; filter: blur(30px); }
+      50% { opacity: 0.7; filter: blur(40px); }
+      100% { opacity: 0.5; filter: blur(30px); }
+    }
+
+    /* Responsive Typography */
+    @media (max-width: 768px) {
+      body { font-size: 15px; }
+      h1 { font-size: 2.75rem; }
+      h2 { font-size: 2rem; }
+      h3 { font-size: 1.5rem; }
+      .hero-gradient {
+        padding-top: 8rem;
+        padding-bottom: 6rem;
+      }
+      #features, #how-it-works, #testimonials {
+        padding: 4rem 0;
+      }
+    }
+
+    /* Enhanced Active Nav Link with animation */
+    .nav-link-active {
+      color: #a5b4fc !important;
+      font-weight: 600 !important;
+      position: relative;
+    }
+    
+    .nav-link-active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #4f46e5, #a5b4fc);
+      border-radius: 2px;
+      animation: navPulse 2s infinite;
+    }
+    
+    @keyframes navPulse {
+      0% { opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { opacity: 0.7; }
+    }
+    
+    /* Enhanced Animate on scroll classes */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                  transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Footer styling with subtle hover effects */
+    footer {
+      background-color: #0f172a;
+      border-top: 1px solid rgba(99, 102, 241, 0.2);
+    }
+    
+    footer a {
+      transition: all 0.3s ease;
+    }
+    
+    footer a:hover {
+      transform: translateY(-3px);
+      text-shadow: 0 0 10px rgba(165, 180, 252, 0.5);
+    }
+    
+    /* New timeline preview section */
+    .timeline-preview {
+      position: relative;
+      height: 220px;
+      background: linear-gradient(to right, rgba(20, 20, 20, 0.9), rgba(40, 40, 40, 0.7), rgba(20, 20, 20, 0.9));
+      border-radius: 1.5rem;
+      overflow: hidden;
+      margin-top: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Timeline preview glow effects */
+    .timeline-preview::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 25% 25%, rgba(138, 43, 226, 0.3), transparent 20%),
+        radial-gradient(circle at 75% 75%, rgba(0, 0, 255, 0.25), transparent 20%),
+        radial-gradient(circle at 75% 25%, rgba(255, 215, 0, 0.2), transparent 20%);
+      filter: blur(25px);
+      z-index: 0;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    
+    /* Animated pulse effect for timeline dots */
+    @keyframes dotPulse {
+      0% { box-shadow: 0 0 15px rgba(138, 43, 226, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(138, 43, 226, 0.7); }
+      100% { box-shadow: 0 0 15px rgba(138, 43, 226, 0.3); }
+    }
+    
+    .timeline-dot {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(135deg, #333333, #000000);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+      transition: all 0.3s ease;
+      z-index: 5;
+      animation: dotPulse 3s infinite;
+    }
+    
+    .timeline-dot:nth-of-type(2) { 
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.5); 
+      animation: purplePulse 3s infinite;
+    }
+    
+    .timeline-dot:nth-of-type(3) { 
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      animation: yellowPulse 3s infinite;
+      animation-delay: 0.6s;
+    }
+    
+    .timeline-dot:nth-of-type(4) { 
+      box-shadow: 0 0 15px rgba(0, 0, 255, 0.5);
+      animation: bluePulse 3s infinite;
+      animation-delay: 1.2s;
+    }
+    
+    .timeline-dot:nth-of-type(5) { 
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      animation: yellowPulse 3s infinite;
+      animation-delay: 1.8s;
+    }
+    
+    .timeline-dot:nth-of-type(6) { 
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+      animation: purplePulse 3s infinite;
+      animation-delay: 2.4s;
+    }
+    
+    @keyframes purplePulse {
+      0% { box-shadow: 0 0 15px rgba(138, 43, 226, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(138, 43, 226, 0.7); }
+      100% { box-shadow: 0 0 15px rgba(138, 43, 226, 0.3); }
+    }
+    
+    @keyframes yellowPulse {
+      0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); }
+      100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+    }
+    
+    @keyframes bluePulse {
+      0% { box-shadow: 0 0 15px rgba(0, 0, 255, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(0, 0, 255, 0.7); }
+      100% { box-shadow: 0 0 15px rgba(0, 0, 255, 0.3); }
+    }
+    
+    /* Shimmer effect on timeline line */
+    @keyframes lineShimmer {
+      0% { background-position: -100% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    .timeline-line {
+      position: absolute;
+      height: 4px;
+      background: linear-gradient(to right, 
+        rgba(0, 0, 0, 0.7), 
+        rgba(60, 60, 60, 0.8),
+        rgba(0, 0, 0, 0.7));
+      background-size: 200% 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      animation: lineShimmer 8s infinite linear;
+    }
+    
+    /* Entrance animation for timeline events */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(calc(-50% + 20px));
+      }
+      to {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+    }
+    
+    .timeline-event {
+      position: absolute;
+      padding: 8px 12px;
+      background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(40, 40, 40, 0.8));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.75rem;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transform: translateY(-50%);
+      backdrop-filter: blur(5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      white-space: nowrap;
+      margin: 0 5px;
+      z-index: 10;
+      animation: fadeInUp 0.8s forwards;
+      max-width: 120px;
+    }
+    
+    .timeline-event:nth-child(7) { animation-delay: 0.1s; }
+    .timeline-event:nth-child(8) { animation-delay: 0.2s; }
+    .timeline-event:nth-child(9) { animation-delay: 0.3s; }
+    .timeline-event:nth-child(10) { animation-delay: 0.4s; }
+    .timeline-event:nth-child(11) { animation-delay: 0.5s; }
+
+    /* Timeline events connecting lines */
+    .timeline-event::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 30px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), transparent);
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+    
+    .timeline-event:nth-child(odd)::after {
+      bottom: -30px;
+      top: auto;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), transparent);
+    }
+    
+    .timeline-event:nth-child(even)::after {
+      top: -30px;
+      bottom: auto;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.7), transparent);
+    }
+    
+    /* New floating particles */
+    .particles-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Grid pattern overlay styles for hero section */
+    .grid-pattern-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+    
+    /* Hero-specific grid pattern with enhanced styling */
+    .hero-grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+      background-size: 3rem 3rem;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 80%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 80%, transparent 100%);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Glitch Button Style - From Uiverse.io by 212004ALJI */
+    .glitch-button,
+    .glitch-button::after {
+      padding: 10px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      background-color: transparent;
+      position: relative;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .glitch-button::after {
+      --move1: inset(50% 50% 50% 50%);
+      --move2: inset(31% 0 40% 0);
+      --move3: inset(39% 0 15% 0);
+      --move4: inset(45% 0 40% 0);
+      --move5: inset(45% 0 6% 0);
+      --move6: inset(14% 0 61% 0);
+      clip-path: var(--move1);
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .glitch-button:hover::after {
+      animation: glitch_4011 1s;
+      text-shadow: 10 10px 10px black;
+      animation-timing-function: steps(2, end);
+      text-shadow: -3px -3px 0px #1df2f0, 3px 3px 0px #E94BE8;
+      background-color: transparent;
+      border: 3px solid rgb(0, 255, 213);
+    }
+
+    .glitch-button:hover {
+      text-shadow: -1px -1px 0px #1df2f0, 1px 1px 0px #E94BE8;
+      background-color: transparent;
+      border: 1px solid rgb(0, 255, 213);
+      box-shadow: 0px 10px 10px -10px rgb(0, 255, 213);
+    }
+
+    @keyframes glitch_4011 {
+      0% {
+        clip-path: var(--move1);
+        transform: translate(0px,-10px);
+      }
+
+      10% {
+        clip-path: var(--move2);
+        transform: translate(-10px,10px);
+      }
+
+      20% {
+        clip-path: var(--move3);
+        transform: translate(10px,0px);
+      }
+
+      30% {
+        clip-path: var(--move4);
+        transform: translate(-10px,10px);
+      }
+
+      40% {
+        clip-path: var(--move5);
+        transform: translate(10px,-10px);
+      }
+
+      50% {
+        clip-path: var(--move6);
+        transform: translate(-10px,10px);
+      }
+
+      60% {
+        clip-path: var(--move1);
+        transform: translate(10px,-10px);
+      }
+
+      70% {
+        clip-path: var(--move3);
+        transform: translate(-10px,10px);
+      }
+
+      80% {
+        clip-path: var(--move2);
+        transform: translate(10px,-10px);
+      }
+
+      90% {
+        clip-path: var(--move4);
+        transform: translate(-10px,10px);
+      }
+
+      100% {
+        clip-path: var(--move1);
+        transform: translate(0);
+      }
+    }
+    
+    /* Primary glitch button variant */
+    .glitch-button-primary {
+      background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
+      border: 1px solid rgba(138, 43, 226, 0.4);
+    }
+    
+    /* Secondary glitch button variant */
+    .glitch-button-secondary {
+      background: rgba(15, 15, 25, 0.7);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+    }
+
+    /* Dark theme glitch button */
+    .glitch-button-dark {
+      background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
+      border: 1px solid rgba(138, 43, 226, 0.4);
+    }
+    
+    /* Remove all these conflicting styles */
+    .glitch-button-dark::before,
+    .glitch-button-dark::after,
+    .glitch-button-dark:hover,
+    .glitch-button-dark:hover::after,
+    .glitch-button-dark.glitch-button:hover::after,
+    .glitch-button-dark.glitch-button:hover {
+      /* Empty to override previous styles */
+    }
+    
+    @keyframes glow-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* From Uiverse.io by menezes11 - Glowing border button */
+    .glow-button {
+      position: relative;
+      padding: 1em 1.8em;
+      outline: none;
+      border: 1px solid #303030;
+      background: #212121;
+      color: #ae00ff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 15px;
+      overflow: hidden;
+      transition: 0.2s;
+      border-radius: 0; /* Changed from 20px to 0 for square corners */
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .glow-button:hover {
+      box-shadow: 0 0 10px #ae00ff, 0 0 25px #001eff, 0 0 50px #ae00ff;
+      transition-delay: 0.6s;
+    }
+
+    .glow-button span {
+      position: absolute;
+    }
+
+    .glow-button span:nth-child(1) {
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #ae00ff);
+    }
+
+    .glow-button:hover span:nth-child(1) {
+      left: 100%;
+      transition: 0.7s;
+    }
+
+    .glow-button span:nth-child(3) {
+      bottom: 0;
+      right: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #001eff);
+    }
+
+    .glow-button:hover span:nth-child(3) {
+      right: 100%;
+      transition: 0.7s;
+      transition-delay: 0.35s;
+    }
+
+    .glow-button span:nth-child(2) {
+      top: -100%;
+      right: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, #ae00ff);
+    }
+
+    .glow-button:hover span:nth-child(2) {
+      top: 100%;
+      transition: 0.7s;
+      transition-delay: 0.17s;
+    }
+
+    .glow-button span:nth-child(4) {
+      bottom: -100%;
+      left: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(360deg, transparent, #001eff);
+    }
+
+    .glow-button:hover span:nth-child(4) {
+      bottom: 100%;
+      transition: 0.7s;
+      transition-delay: 0.52s;
+    }
+
+    .glow-button:active {
+      background: #ae00af;
+      background: linear-gradient(to top right, #ae00af, #001eff);
+      color: #bfbfbf;
+      box-shadow: 0 0 8px #ae00ff, 0 0 8px #001eff, 0 0 8px #ae00ff;
+      transition: 0.1s;
+    }
+
+    .glow-button:active span:nth-child(1),
+    .glow-button:active span:nth-child(2),
+    .glow-button:active span:nth-child(3),
+    .glow-button:active span:nth-child(4) {
+      transition: none;
+      transition-delay: none;
+    }
+    
+    /* Dark variant */
+    .glow-button-dark {
+      background: #0f0f1a;
+      border-color: #1a1a2e;
+      color: #ae00ff;
+    }
+    
+    /* Combining with glitch effect */
+    .glow-button.glitch-button::after {
+      z-index: 1;
+      border-radius: 0;
+    }
+    
+    /* Ensure square corners for all button child elements */
+    .glow-button span,
+    .glow-button::before,
+    .glow-button::after {
+      border-radius: 0;
+    }
+    
+    /* Stylish Hero Heading */
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(to right, #ffffff 0%, #c7d2fe 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(165, 180, 252, 0.5);
+      position: relative;
+      overflow: hidden;
+      animation: title-glow 3s ease-in-out infinite alternate;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      font-size: 4.5rem;
+      line-height: 1.1;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 3.5rem;
+      }
+    }
+    
+    @keyframes title-glow {
+      0% {
+        text-shadow: 0 0 20px rgba(165, 180, 252, 0.3);
+      }
+      100% {
+        text-shadow: 0 0 40px rgba(165, 180, 252, 0.7), 0 0 80px rgba(99, 102, 241, 0.3);
+      }
+    }
+    
+    .hero-subtitle {
+      font-family: 'Raleway', sans-serif;
+      color: rgba(226, 232, 240, 0.9);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      font-weight: 300;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+      font-size: 1.3rem;
+      max-width: 3xl;
+      margin: 0 auto 2.5rem auto;
+    }
+    
+    .hero-highlight {
+      background: linear-gradient(to right, #a5b4fc, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+      position: relative;
+    }
+    
+    .hero-highlight::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #a5b4fc, transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: underline-reveal 1.5s ease-out forwards 0.5s;
+    }
+    
+    @keyframes underline-reveal {
+      to {
+        transform: scaleX(1);
+      }
+    }
+    
+    .fade-in-hero {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: reveal 1s cubic-bezier(0.5, 0, 0, 1) forwards;
+    }
+    
+    @keyframes reveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .typing-indicator {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px;
+    }
+    
+    .typing-indicator span {
+        display: inline-block;
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        margin: 0 2px;
+        animation: typing 1.4s infinite ease-in-out;
+        transform: translateY(0);
+        transition: all 0.3s;
+    }
+    
+    .typing-indicator span:nth-child(1) {
+        background-color: rgba(52, 211, 153, 0.8); /* emerald-400 */
+    }
+    
+    .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+        background-color: rgba(167, 139, 250, 0.8); /* violet-400 */
+    }
+    
+    .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+        background-color: rgba(251, 113, 133, 0.8); /* rose-400 */
+    }
+    
+    @keyframes typing {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-300 min-h-screen">
+
+  <!-- Navigation -->
+  <nav id="mainNav" class="fixed w-full z-50 glassmorphism transition-all duration-300">
+    <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center space-x-3">
+        <i class="fas fa-book-open text-indigo-400 text-xl"></i>
+        <a href="index.html" class="text-2xl font-bold text-white hover:text-indigo-300 transition-colors">
+          Hodor the Historian
+        </a>
+      </div>
+
+      <!-- Desktop Menu (Centered) -->
+      <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-6">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors nav-link" data-active="index">Home</a>
+        <a href="timelines.html" class="text-gray-300 hover:text-white transition-colors nav-link" data-active="timelines">My Timelines</a>
+        <a href="create.html" class="text-gray-300 hover:text-white transition-colors nav-link" data-active="create">Create New</a>
+      </div>
+
+      <!-- Actions / Mobile Toggle -->
+      <div class="flex items-center space-x-4">
+          <button id="theme-toggle" class="text-gray-300 hover:text-white focus:outline-none px-3 py-1">
+            <i class="fas fa-moon text-lg"></i>
+          </button>
+          <div class="md:hidden">
+            <button id="mobileMenuToggle" class="text-gray-300 hover:text-white focus:outline-none">
+              <i class="fas fa-bars text-2xl"></i>
+            </button>
+          </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden transition-all duration-300 ease-in-out bg-gray-800 bg-opacity-90 backdrop-blur-sm mt-1">
+      <div class="flex flex-col items-center space-y-4 py-6">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link" data-active="index">Home</a>
+        <a href="timelines.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link" data-active="timelines">My Timelines</a>
+        <a href="create.html" class="text-gray-300 hover:text-white transition-colors text-lg nav-link" data-active="create">Create New</a>
+        <button id="mobile-theme-toggle" class="text-gray-300 hover:text-white focus:outline-none text-lg">
+          <i class="fas fa-moon mr-2"></i> Toggle Dark Mode
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section with animated particles -->
+  <section class="hero-gradient relative">
+    <div class="particles-container" id="particles"></div>
+    <!-- Grid overlay pattern for hero section -->
+    <div class="hero-grid-pattern"></div>
+    <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
+      <div class="fade-in-hero" style="animation-delay: 0.1s;">
+        <h1 class="hero-title">
+          Hodor the Historian
+        </h1>
+        <p class="hero-subtitle">
+          <span class="hero-highlight">Hold the history!</span> Create stunning, interactive timelines effortlessly with our AI-powered platform.
+        </p>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 fade-in-hero" style="animation-delay: 0.3s;">
+        <!-- Create Your First Timeline button -->
+        <a href="create.html" class="glitch-button glitch-button-primary" data-text="Let Hodor Hold Your History">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Let Hodor Hold Your History
+        </a>
+        <button id="gemini-chat-btn" class="glitch-button glitch-button-secondary" data-text="Chat with Hodor">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Chat with Hodor
+        </button>
+      </div>
+      
+      <!-- Added Timeline Preview -->
+      <div class="timeline-preview mt-12 mx-auto max-w-4xl" style="position: relative;">
+        <!-- Add an overlay glow effect -->
+        <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%); z-index: 0;"></div>
+        
+        <!-- Timeline base line -->
+        <div class="timeline-line" style="left: 9%; width: 77%;"></div>
+        
+        <!-- Timeline dots -->
+        <div class="timeline-dot" style="left: 10%; cursor: pointer;"></div>
+        <div class="timeline-dot" style="left: 30%; cursor: pointer;"></div>
+        <div class="timeline-dot" style="left: 50%; cursor: pointer;"></div>
+        <div class="timeline-dot" style="left: 70%; cursor: pointer;"></div>
+        <div class="timeline-dot" style="left: 85%; cursor: pointer;"></div>
+        
+        <!-- Timeline events -->
+        <div class="timeline-event" style="left: 10%; top: 22%; cursor: pointer;">
+          <span class="font-bold text-sm">Ancient Rome</span>
+          <span class="text-xs block text-gray-300 mt-1" style="font-size: 0.65rem;">753 BC - 476 AD</span>
+        </div>
+        
+        <div class="timeline-event" style="left: 30%; top: 78%; cursor: pointer;">
+          <span class="font-bold text-sm">Middle Ages</span>
+          <span class="text-xs block text-gray-300 mt-1" style="font-size: 0.65rem;">5th - 15th century</span>
+        </div>
+        
+        <div class="timeline-event" style="left: 50%; top: 25%; cursor: pointer;">
+          <span class="font-bold text-sm">Renaissance</span>
+          <span class="text-xs block text-gray-300 mt-1" style="font-size: 0.65rem;">14th - 17th century</span>
+        </div>
+        
+        <div class="timeline-event" style="left: 70%; top: 75%; cursor: pointer;">
+          <span class="font-bold text-sm">Industrial Era</span>
+          <span class="text-xs block text-gray-300 mt-1" style="font-size: 0.65rem;">18th - 19th century</span>
+        </div>
+        
+        <div class="timeline-event" style="left: 85%; top: 30%; padding: 8px 12px; background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(50, 50, 50, 0.9)); border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6); cursor: pointer; max-width: 120px;">
+          <span class="font-bold text-sm">Modern Day</span>
+          <span class="text-xs block text-gray-300 mt-1" style="font-size: 0.65rem;">20th - 21st century</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section with enhanced cards -->
+  <section id="features" class="py-20 md:py-28">
+    <div class="container mx-auto px-4 md:px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in-up">
+        Why Choose Hodor the Historian?
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        <!-- Feature 1: AI Assistance -->
+        <div class="glassmorphism-card p-8 text-center feature-card fade-in-up">
+          <div class="feature-card-icon inline-flex items-center justify-center w-16 h-16 rounded-full mb-6">
+            <i class="fas fa-brain fa-2x"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">AI-Powered Suggestions</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Get intelligent suggestions for events, dates, and context based on your topic, making research faster and timelines richer.
+          </p>
+          <div class="mt-4">
+            <a href="javascript:void(0)" class="text-indigo-400 hover:text-indigo-300 text-sm inline-flex items-center">
+              Learn more <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Feature 2: Interactive Visualization -->
+        <div class="glassmorphism-card p-8 text-center feature-card fade-in-up" style="transition-delay: 0.1s;">
+          <div class="feature-card-icon inline-flex items-center justify-center w-16 h-16 rounded-full mb-6">
+            <i class="fas fa-palette fa-2x"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Beautiful & Interactive</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Choose from various stunning themes. Engage your audience with timelines they can click, explore, and interact with.
+          </p>
+          <div class="mt-4">
+            <a href="javascript:void(0)" class="text-indigo-400 hover:text-indigo-300 text-sm inline-flex items-center">
+              View examples <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Feature 3: Easy Collaboration & Sharing -->
+        <div class="glassmorphism-card p-8 text-center feature-card fade-in-up" style="transition-delay: 0.2s;">
+           <div class="feature-card-icon inline-flex items-center justify-center w-16 h-16 rounded-full mb-6">
+            <i class="fas fa-share-alt fa-2x"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Collaborate & Share</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Work together with others in real-time. Easily share your creations online or embed them on your website or blog.
+          </p>
+          <div class="mt-4">
+            <a href="javascript:void(0)" class="text-indigo-400 hover:text-indigo-300 text-sm inline-flex items-center">
+              Sharing options <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Added fourth feature -->
+      <div class="mt-10 max-w-lg mx-auto">
+        <div class="glassmorphism-card p-8 text-center feature-card fade-in-up" style="transition-delay: 0.3s;">
+          <div class="feature-card-icon inline-flex items-center justify-center w-16 h-16 rounded-full mb-6">
+            <i class="fas fa-mobile-alt fa-2x"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Mobile-Optimized Experience</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Create and view your timelines on any device. Our responsive design ensures a seamless experience from desktop to mobile.
+          </p>
+          <div class="mt-4">
+            <a href="javascript:void(0)" class="text-indigo-400 hover:text-indigo-300 text-sm inline-flex items-center">
+              Try on mobile <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section with enhanced steps -->
+   <section id="how-it-works" class="py-20 md:py-28">
+    <div class="grid-pattern-overlay"></div>
+    <div class="container mx-auto px-4 md:px-6 relative z-10">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in-up">Get Started in Minutes</h2>
+      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+        <!-- Step 1 -->
+        <div class="flex flex-col items-center fade-in-up">
+           <div class="step-circle mb-4">1</div>
+           <h3 class="text-lg font-semibold mb-2">Define Your Topic</h3>
+           <p class="text-gray-400 text-sm">Enter the subject or timeframe for your timeline.</p>
+           <div class="mt-4 bg-gray-800 h-24 w-36 rounded-lg flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
+             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+             </svg>
+           </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="flex flex-col items-center fade-in-up" style="transition-delay: 0.1s;">
+          <div class="step-circle mb-4">2</div>
+           <h3 class="text-lg font-semibold mb-2">Add Events (or Let AI Help)</h3>
+           <p class="text-gray-400 text-sm">Manually input key dates and descriptions, or use AI suggestions.</p>
+           <div class="mt-4 bg-gray-800 h-24 w-36 rounded-lg flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
+             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+               <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+               <circle cx="12" cy="16" r="1"></circle>
+             </svg>
+           </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="flex flex-col items-center fade-in-up" style="transition-delay: 0.2s;">
+           <div class="step-circle mb-4">3</div>
+           <h3 class="text-lg font-semibold mb-2">Customize & Share</h3>
+           <p class="text-gray-400 text-sm">Choose a visual style, refine details, and share your interactive timeline.</p>
+           <div class="mt-4 bg-gray-800 h-24 w-36 rounded-lg flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
+             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <circle cx="18" cy="5" r="3"></circle>
+               <circle cx="6" cy="12" r="3"></circle>
+               <circle cx="18" cy="19" r="3"></circle>
+               <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+               <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+             </svg>
+           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action with enhanced visuals -->
+  <section class="cta-section py-20 text-center relative">
+    <div class="grid-pattern-overlay"></div>
+    <div class="container mx-auto px-4 md:px-6 relative z-10">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white fade-in-up">Ready to Let Hodor Hold Your History?</h2>
+      <p class="text-lg text-purple-100 mb-10 max-w-2xl mx-auto fade-in-up" style="transition-delay: 0.1s;">
+        Start creating your interactive, Hodor-enhanced timeline today. It's free to get started!
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 fade-in-up" style="transition-delay: 0.2s;">
+        <!-- Chat with Gemini AI button -->
+        <button id="openChatBtn" class="glitch-button glitch-button-secondary" data-text="Hodor! (Start Now)">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Hodor! (Start Now)
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with enhanced social links -->
+  <footer class="py-8 mt-0">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h4 class="text-white text-lg font-semibold mb-4">Hodor the Historian</h4>
+          <p class="text-gray-400 text-sm">Hodor! (Creating beautiful, interactive timelines for educators, historians, and storytellers.)</p>
+        </div>
+        <div>
+          <h4 class="text-white text-lg font-semibold mb-4">Product</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Features</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Pricing</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Examples</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Templates</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white text-lg font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Documentation</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Tutorials</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Blog</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white text-lg font-semibold mb-4">Company</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">About</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Careers</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Privacy</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-indigo-400 transition-colors">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-500 text-sm">© 2025 Hodor the Historian. All rights reserved. Hodor!</p>
+        <div class="mt-4 md:mt-0 space-x-6">
+          <a href="javascript:void(0)" class="hover:text-indigo-400 transition-colors text-gray-400"><i class="fab fa-twitter"></i></a>
+          <a href="javascript:void(0)" class="hover:text-indigo-400 transition-colors text-gray-400"><i class="fab fa-facebook"></i></a>
+          <a href="javascript:void(0)" class="hover:text-indigo-400 transition-colors text-gray-400"><i class="fab fa-instagram"></i></a>
+          <a href="javascript:void(0)" class="hover:text-indigo-400 transition-colors text-gray-400"><i class="fab fa-github"></i></a>
+          <a href="javascript:void(0)" class="hover:text-indigo-400 transition-colors text-gray-400"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Gemini Chat Modal -->
+  <div id="gemini-chat-modal" class="fixed inset-0 z-50 hidden overflow-auto bg-slate-900/85 backdrop-blur-xl flex items-center justify-center p-4 transition-all duration-300">
+    <div class="group bg-gradient-to-br from-slate-900/40 via-indigo-900/30 to-purple-900/40 backdrop-blur-2xl rounded-2xl shadow-[0_0_50px_rgba(129,140,248,0.2)] w-full max-w-2xl mx-auto border border-indigo-500/20 transform transition-all duration-500 hover:shadow-[0_0_80px_rgba(129,140,248,0.3)] relative overflow-hidden">
+      <!-- Enhanced animated background elements -->
+      <div class="absolute inset-0 opacity-20">
+        <div class="absolute -right-24 -top-24 w-48 h-48 bg-blue-400/20 rounded-full blur-3xl transform group-hover:translate-x-12 group-hover:translate-y-12 transition-transform duration-700"></div>
+        <div class="absolute -left-24 -bottom-24 w-48 h-48 bg-purple-400/20 rounded-full blur-3xl transform group-hover:-translate-x-12 group-hover:-translate-y-12 transition-transform duration-700"></div>
+      </div>
+      
+      <!-- Enhanced header with no transparency -->
+      <div class="flex justify-between items-center p-6 border-b border-indigo-500 bg-gradient-to-r from-slate-900 to-indigo-900 relative z-10">
+        <div class="flex items-center space-x-4">
+          <div class="bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl p-3 shadow-lg transform transition-all duration-500 hover:scale-110 hover:rotate-6">
+            <i class="fas fa-robot text-white text-xl"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-xl text-white tracking-wide">Hodor the Historian</h3>
+            <p class="text-sm text-white font-medium">Your Time-Traveling Guide</p>
+          </div>
+        </div>
+        <button id="close-gemini-chat-btn" class="text-indigo-300 hover:text-white focus:outline-none transition-all duration-300 transform hover:scale-110 hover:rotate-90 bg-slate-800 p-2 rounded-lg hover:bg-indigo-900">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+      </div>
+      
+      <!-- Enhanced chat messages area with flex-col-reverse -->
+      <div id="gemini-chat-messages" class="p-6 h-[450px] overflow-y-auto bg-gradient-to-b from-slate-900/30 to-indigo-900/20 backdrop-filter backdrop-blur-md relative z-10 flex flex-col">
+        <!-- Welcome message with enhanced styling -->
+        <div class="flex items-start space-x-4 animate-fade-in-up mb-4">
+          <div class="flex-shrink-0">
+            <div class="bg-gradient-to-br from-blue-500/90 to-purple-500/90 rounded-xl p-3 shadow-lg hover:scale-110 transition-all duration-300">
+              <i class="fas fa-robot text-white text-lg"></i>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="bg-gradient-to-r from-slate-800/40 to-indigo-900/30 backdrop-blur-md rounded-2xl p-5 shadow-xl border border-indigo-500/20 transform hover:-translate-y-1 transition-all duration-300 max-w-[85%] hover:border-indigo-500/40">
+              <p class="text-lg text-indigo-100/90 leading-relaxed">
+                Hodor! <span class="text-blue-300/90">(Welcome to your historical journey! I'm Hodor the Historian, ready to guide you through the annals of time. What period of history shall we explore today?)</span>
+              </p>
+            </div>
+            <div class="mt-2 ml-2">
+              <span class="text-xs text-gray-400/80">Hodor Bot • Just now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Enhanced input area -->
+      <div class="p-6 border-t border-emerald-700/10 bg-gradient-to-r from-neutral-900/30 to-neutral-800/30 relative z-10">
+        <form id="gemini-chat-form" class="flex relative">
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/5 to-violet-400/5 rounded-xl blur-lg"></div>
+          <div class="flex-1 relative">
+            <input type="text" id="gemini-chat-input" 
+              class="w-full px-6 py-4 bg-neutral-800/30 border border-emerald-700/15 text-gray-100/90 text-lg rounded-l-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 shadow-inner relative z-10 placeholder-gray-400/60"
+              placeholder="Ask Hodor about any historical period..."
+            >
+            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400/60 text-sm">Press Enter ↵</div>
+          </div>
+          <button type="submit" 
+            class="bg-gradient-to-r from-emerald-500/60 to-violet-500/60 text-white/90 px-6 py-4 rounded-r-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 shadow-lg relative z-10 overflow-hidden group transition-all duration-300 hover:from-emerald-400/70 hover:to-violet-400/70"
+          >
+            <span class="relative z-10 flex items-center space-x-2">
+              <span class="hidden sm:inline">Send</span>
+              <i class="fas fa-paper-plane text-lg group-hover:scale-110 transition-transform duration-300"></i>
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Enhanced Mobile Menu Toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = mobileMenuToggle.querySelector('i');
+
+    mobileMenuToggle.addEventListener('click', function() {
+      const isHidden = mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden');
+      menuIcon.classList.toggle('fa-bars', !isHidden);
+      menuIcon.classList.toggle('fa-times', isHidden);
+    });
+
+    // Active Page Highlighting
+    function setActiveNavLink() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html'; // Default to index if path is '/'
+      const navLinks = document.querySelectorAll('.nav-link'); // Use class selector
+
+      navLinks.forEach(link => {
+        const linkPage = link.getAttribute('data-active') + '.html';
+        link.classList.remove('nav-link-active', 'text-gray-300', 'text-lg'); // Reset styles
+
+        if (link.closest('#mobileMenu')) {
+            link.classList.add('text-lg'); // Keep mobile links large
+        }
+
+        if (currentPage === linkPage) {
+          link.classList.add('nav-link-active'); // Apply active style class
+          link.classList.remove('text-gray-300'); // Ensure default color is removed
+        } else {
+          link.classList.add('text-gray-300'); // Apply default color
+        }
+      });
+    }
+
+    // Smooth Scroll to Sections
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        
+        // Skip if the href is just "#"
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            // Calculate offset for fixed header
+            const navHeight = document.getElementById('mainNav')?.offsetHeight || 70; // Adjust 70 if nav height changes
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+            window.scrollTo({
+             top: offsetPosition,
+             behavior: 'smooth'
+            });
+
+            // Close mobile menu if open after clicking a link
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        }
+      });
+    });
+
+    // Add shadow to navbar on scroll
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+        nav.style.background = 'rgba(15, 23, 42, 0.85)';
+      } else {
+        nav.style.boxShadow = 'none';
+        nav.style.background = 'rgba(15, 23, 42, 0.7)';
+      }
+    });
+
+    // Enhanced Fade in elements on scroll with staggered delay
+    const fadeElements = document.querySelectorAll('.fade-in-up');
+    
+    function checkFade() {
+      fadeElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const elementTop = rect.top;
+        const elementVisible = 100; // how many pixels of the element should be visible
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    
+    // Create floating particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      if (!container) return;
+      
+      const particleCount = 20;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random size between 3px and 8px
+        const size = Math.random() * 5 + 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        
+        // Random opacity
+        particle.style.opacity = Math.random() * 0.5 + 0.1;
+        
+        // Animation
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        
+        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite alternate`;
+        
+        container.appendChild(particle);
+      }
+    }
+    
+    // Add float animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes float {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(${Math.random() * 30 - 15}px, ${Math.random() * 30 - 15}px); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Initial check on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      checkFade();
+      setActiveNavLink();
+      createParticles();
+    });
+    
+    // Check on scroll
+    window.addEventListener('scroll', checkFade);
+
+    // DOM Elements
+    const geminiChatBtn = document.getElementById('gemini-chat-btn');
+    const geminiChatModal = document.getElementById('gemini-chat-modal');
+    const closeGeminiChatBtn = document.getElementById('close-gemini-chat-btn');
+    const geminiChatForm = document.getElementById('gemini-chat-form');
+    const geminiChatInput = document.getElementById('gemini-chat-input');
+    const geminiChatMessages = document.getElementById('gemini-chat-messages');
+
+    // Show/hide chat modal
+    geminiChatBtn.addEventListener('click', () => {
+      geminiChatModal.classList.remove('hidden');
+    });
+
+    closeGeminiChatBtn.addEventListener('click', () => {
+      geminiChatModal.classList.add('hidden');
+    });
+
+    // Handle chat form submission
+    geminiChatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userMessage = geminiChatInput.value.trim();
+      if (!userMessage) return;
+
+      // Add user message to chat
+      addMessageToChat(userMessage, 'user');
+      geminiChatInput.value = '';
+
+      // Show loading indicator
+      const loadingMessage = addLoadingMessage();
+      
+      try {
+        // Call Gemini API
+        const response = await generateGeminiResponse(userMessage);
+        
+        // Remove loading message
+        loadingMessage.remove();
+        
+        // Add AI response to chat
+        addMessageToChat(response, 'assistant');
+      } catch (error) {
+        console.error('Error calling Gemini API:', error);
+        loadingMessage.remove();
+        addMessageToChat("Sorry, I encountered an error. Please try again.", 'assistant', true);
+      }
+    });
+
+    // Function to generate response using Gemini API
+    async function generateGeminiResponse(prompt) {
+      try {
+        const response = await fetch('/api/gemini', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            prompt: prompt
+          }),
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          console.error('API Error:', data);
+          // If server provides an error response with a user-friendly message, use it
+          if (data.response) {
+            return data.response;
+          }
+          throw new Error(`API request failed with status ${response.status}: ${data.error || data.details || 'Unknown error'}`);
+        }
+        
+        // Server returns { response: "..." }, not { text: "..." }
+        return data.response || data.text || "Hodor! (I'm not sure how to respond to that.)";
+      } catch (error) {
+        console.error('Error in Gemini API call:', error);
+        // Return a more helpful error message
+        return `Hodor... (Sorry, I couldn't process your request: ${error.message}. Please try again.)`;
+      }
+    }
+
+    // Function to add message to chat
+    function addMessageToChat(message, role, isError = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `mb-4 flex ${role === 'user' ? 'justify-end' : ''} animate-fade-in-up`;
+
+      if (role === 'user') {
+        messageDiv.innerHTML = `
+          <div class="bg-indigo-600 text-white rounded-lg p-3 max-w-xs md:max-w-md">
+            <p>${message}</p>
+          </div>
+        `;
+      } else {
+        messageDiv.innerHTML = `
+          <div class="flex-shrink-0 mr-2">
+            <div class="bg-indigo-600 rounded-full p-2">
+              <i class="fas fa-robot text-white"></i>
+            </div>
+          </div>
+          <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-xs md:max-w-md text-white ${isError ? 'text-red-300' : ''}">
+            <p>${message}</p>
+          </div>
+        `;
+      }
+
+      geminiChatMessages.appendChild(messageDiv);
+      geminiChatMessages.scrollTop = geminiChatMessages.scrollHeight;
+    }
+
+    // Function to add loading message
+    function addLoadingMessage() {
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'mb-4 flex animate-fade-in-up';
+      loadingDiv.innerHTML = `
+        <div class="flex-shrink-0 mr-2">
+          <div class="bg-indigo-600 rounded-full p-2">
+            <i class="fas fa-robot text-white"></i>
+          </div>
+        </div>
+        <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-xs md:max-w-md text-white">
+          <div class="flex items-center">
+            <span class="mr-2">Hodor</span>
+            <div class="animate-pulse flex space-x-2">
+              <div class="h-2 w-2 bg-white rounded-full"></div>
+              <div class="h-2 w-2 bg-white rounded-full"></div>
+              <div class="h-2 w-2 bg-white rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      `;
+      geminiChatMessages.appendChild(loadingDiv);
+      geminiChatMessages.scrollTop = geminiChatMessages.scrollHeight;
+      return loadingDiv;
+    }
+
+    // Dark Theme Toggle Functionality
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+    const darkThemeLink = document.querySelector('link[href="css/dark-theme.css"]');
+    
+    // Check if dark theme preference is stored
+    const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
+    
+    // Initial theme setup
+    if (!isDarkTheme) {
+      darkThemeLink.disabled = true;
+      updateThemeIcons(false);
+    } else {
+      updateThemeIcons(true);
+    }
+    
+    // Function to toggle theme
+    function toggleDarkTheme() {
+      const isDark = darkThemeLink.disabled;
+      darkThemeLink.disabled = !isDark;
+      localStorage.setItem('darkTheme', !isDark);
+      updateThemeIcons(!isDark);
+    }
+    
+    // Update moon/sun icons
+    function updateThemeIcons(isDark) {
+      if (isDark) {
+        themeToggleBtn.innerHTML = '<i class="fas fa-sun text-lg"></i>';
+        mobileThemeToggleBtn.innerHTML = '<i class="fas fa-sun mr-2"></i> Toggle Light Mode';
+      } else {
+        themeToggleBtn.innerHTML = '<i class="fas fa-moon text-lg"></i>';
+        mobileThemeToggleBtn.innerHTML = '<i class="fas fa-moon mr-2"></i> Toggle Dark Mode';
+      }
+    }
+    
+    // Add event listeners for theme toggle
+    themeToggleBtn.addEventListener('click', toggleDarkTheme);
+    mobileThemeToggleBtn.addEventListener('click', toggleDarkTheme);
+
+    // Timeline interactive functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Select timeline elements
+      const timelineDots = document.querySelectorAll('.timeline-dot');
+      const timelineEvents = document.querySelectorAll('.timeline-event');
+      
+      // Add hover effects to timeline dots
+      timelineDots.forEach((dot, index) => {
+        // Connect dots with corresponding events
+        dot.addEventListener('mouseenter', () => {
+          // Highlight corresponding event
+          if (timelineEvents[index]) {
+            timelineEvents[index].style.transform = 'translateY(-50%) scale(1.08)';
+            timelineEvents[index].style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
+            timelineEvents[index].style.borderColor = 'rgba(255, 255, 255, 0.4)';
+            timelineEvents[index].style.zIndex = '20';
+          }
+          
+          // Emphasize dot
+          dot.style.transform = 'translateY(-50%) scale(1.2)';
+          dot.style.borderColor = 'rgba(255, 255, 255, 0.9)';
+          dot.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.7)';
+        });
+        
+        dot.addEventListener('mouseleave', () => {
+          // Reset event styling
+          if (timelineEvents[index]) {
+            timelineEvents[index].style.transform = 'translateY(-50%)';
+            timelineEvents[index].style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+            timelineEvents[index].style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            timelineEvents[index].style.zIndex = '10';
+          }
+          
+          // Reset dot styling
+          dot.style.transform = 'translateY(-50%)';
+          dot.style.borderColor = 'rgba(255, 255, 255, 0.7)';
+          dot.style.boxShadow = '';
+        });
+        
+        // Add click functionality
+        dot.addEventListener('click', () => {
+          // Simulate focus on that timeline era
+          timelineDots.forEach(d => d.style.opacity = '0.5');
+          timelineEvents.forEach(e => e.style.opacity = '0.5');
+          
+          dot.style.opacity = '1';
+          if (timelineEvents[index]) {
+            timelineEvents[index].style.opacity = '1';
+          }
+          
+          // Reset after 2 seconds
+          setTimeout(() => {
+            timelineDots.forEach(d => d.style.opacity = '1');
+            timelineEvents.forEach(e => e.style.opacity = '1');
+          }, 2000);
+        });
+      });
+      
+      // Add similar hover effects to timeline events
+      timelineEvents.forEach((event, index) => {
+        event.addEventListener('mouseenter', () => {
+          // Highlight corresponding dot
+          if (timelineDots[index]) {
+            timelineDots[index].style.transform = 'translateY(-50%) scale(1.2)';
+            timelineDots[index].style.borderColor = 'rgba(255, 255, 255, 0.9)';
+            timelineDots[index].style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.7)';
+          }
+          
+          // Emphasize event
+          event.style.transform = 'translateY(-50%) scale(1.08)';
+          event.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.5)';
+          event.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+          event.style.zIndex = '20';
+        });
+        
+        event.addEventListener('mouseleave', () => {
+          // Reset dot styling
+          if (timelineDots[index]) {
+            timelineDots[index].style.transform = 'translateY(-50%)';
+            timelineDots[index].style.borderColor = 'rgba(255, 255, 255, 0.7)';
+            timelineDots[index].style.boxShadow = '';
+          }
+          
+          // Reset event styling
+          event.style.transform = 'translateY(-50%)';
+          event.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+          event.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+          event.style.zIndex = '10';
+        });
+      });
+    });
+
+    // Function to add a message to the chat
+    function addMessage(sender, message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('mb-5', 'flex', 'opacity-0', 'transform', 'translate-y-4');
+        
+        if (sender === 'user') {
+            messageDiv.classList.add('justify-end');
+            messageDiv.innerHTML = `
+                <div class="bg-neutral-800 bg-opacity-80 rounded-lg p-4 max-w-xs md:max-w-md text-gray-50 shadow-lg border border-emerald-700/20 hover:-translate-y-1 transition-all duration-300">
+                    <p class="text-lg">${message}</p>
+                </div>
+                <div class="flex-shrink-0 ml-3">
+                    <div class="bg-gradient-to-r from-violet-400 to-emerald-400 rounded-full p-3 shadow-lg hover:scale-110 transition-all duration-300">
+                        <i class="fas fa-user text-white text-lg"></i>
+                    </div>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="flex-shrink-0 mr-3">
+                    <div class="bg-gradient-to-r from-emerald-400 to-violet-400 rounded-full p-3 shadow-lg hover:scale-110 transition-all duration-300">
+                        <i class="fas fa-robot text-white text-lg"></i>
+                    </div>
+                </div>
+                <div class="bg-neutral-800 bg-opacity-80 rounded-lg p-4 max-w-xs md:max-w-md text-gray-50 shadow-lg border border-emerald-700/20 hover:-translate-y-1 transition-all duration-300">
+                    <p class="text-lg">${message}</p>
+                </div>
+            `;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Add enhanced entrance animation
+        setTimeout(() => {
+            messageDiv.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            messageDiv.style.opacity = '1';
+            messageDiv.style.transform = 'translateY(0)';
+        }, 50);
+    }
+    
+    // Function to add loading indicator
+    function addLoadingIndicator() {
+        const loadingId = 'loading-' + Date.now();
+        const loadingDiv = document.createElement('div');
+        loadingDiv.id = loadingId;
+        loadingDiv.classList.add('mb-5', 'flex', 'opacity-0', 'transform', 'translate-y-4');
+        loadingDiv.innerHTML = `
+            <div class="flex-shrink-0 mr-3">
+                <div class="bg-gradient-to-r from-emerald-400 to-violet-400 rounded-full p-3 shadow-lg">
+                    <i class="fas fa-robot text-white text-lg"></i>
+                </div>
+            </div>
+            <div class="bg-neutral-800 bg-opacity-80 rounded-lg p-4 max-w-xs md:max-w-md text-gray-50 shadow-lg border border-emerald-700/20">
+                <div class="typing-indicator">
+                    <span class="bg-emerald-400"></span>
+                    <span class="bg-violet-400"></span>
+                    <span class="bg-rose-400"></span>
+                </div>
+            </div>
+        `;
+        
+        chatMessages.appendChild(loadingDiv);
+        
+        // Add enhanced entrance animation
+        setTimeout(() => {
+            loadingDiv.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            loadingDiv.style.opacity = '1';
+            loadingDiv.style.transform = 'translateY(0)';
+        }, 50);
+        
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return loadingId;
+    }
+  </script>
+</body>
+</html>

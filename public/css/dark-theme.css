@@ -1,0 +1,307 @@
+/* HistoryWeaver Dark Theme CSS */
+
+:root {
+  /* Dark theme colors */
+  --c-gray-900: #000000;
+  --c-gray-800: #1f1f1f;
+  --c-gray-700: #2e2e2e;
+  --c-gray-600: #313131;
+  --c-gray-500: #969593;
+  --c-gray-400: #a6a6a6;
+  --c-gray-300: #bdbbb7;
+  --c-gray-200: #f1f1f1;
+  --c-gray-100: #ffffff;
+
+  --c-indigo-600: #4f46e5;
+  --c-indigo-500: #6366f1;
+  --c-indigo-400: #818cf8;
+  --c-indigo-300: #a5b4fc;
+  --c-indigo-200: #c7d2fe;
+  --c-indigo-100: #e0e7ff;
+
+  --c-green-500: #45ffbc;
+  --c-olive-500: #e3ffa8;
+
+  /* Text colors */
+  --c-text-primary: var(--c-gray-100);
+  --c-text-secondary: var(--c-gray-200);
+  --c-text-tertiary: var(--c-gray-500);
+}
+
+/* Apply dark theme to the entire website */
+body, .bg-gray-50 {
+  background-color: var(--c-gray-900) !important;
+  color: var(--c-text-primary) !important;
+}
+
+/* Force all white backgrounds to dark */
+.bg-white, .bg-gray-100, .bg-gray-200, div[class*="bg-white"], div[class*="bg-gray-50"], div[class*="bg-gray-100"] {
+  background-color: var(--c-gray-800) !important;
+  color: var(--c-text-primary) !important;
+}
+
+/* Navigation & Header styles */
+nav, header, .shadow-sm, footer, .app-header, section {
+  background-color: var(--c-gray-800) !important;
+  color: var(--c-text-primary) !important;
+}
+
+/* Fix all fixed elements like modals, dropdowns, etc. */
+.fixed, .absolute {
+  background-color: transparent !important;
+}
+
+/* Fix specifically the modal content to ensure it has dark background */
+#chat-modal .bg-white, .modal-content, .dropdown-content {
+  background-color: var(--c-gray-800) !important;
+}
+
+/* Ensure proper border colors */
+.border-t, .border-b, .border, .border-gray-200, .border-gray-300, .border-gray-600,
+[class*="border-gray-"], [class*="border-indigo-"] {
+  border-color: var(--c-gray-600) !important;
+}
+
+/* Fix shadows */
+.shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Links */
+a, button {
+  color: var(--c-text-secondary);
+  transition: 0.25s ease;
+}
+
+a:hover, a.text-indigo-600, a.hover\:text-indigo-600:hover, 
+a[class*="text-indigo"], a[class*="text-blue"] {
+  color: var(--c-indigo-300) !important;
+}
+
+/* Text colors - ensure ALL text has proper visibility */
+.text-gray-700, .text-gray-600, .text-gray-800, .text-gray-900,
+[class*="text-gray-"], h1, h2, h3, h4, h5, h6, p, span, div {
+  color: var(--c-text-secondary) !important;
+}
+
+.text-indigo-600, .text-indigo-700, .text-indigo-800, 
+[class*="text-indigo-"] {
+  color: var(--c-indigo-300) !important;
+}
+
+/* Force all headings to be visible */
+h1, h2, h3, .logo-title span, .timeline-event-title, #timelineTitle {
+  color: var(--c-text-primary) !important;
+}
+
+/* All paragraphs and descriptions */
+p, .timeline-event-description, dd, dt, #timelineDescription {
+  color: var(--c-text-secondary) !important;
+}
+
+/* Button styles - fix ALL buttons */
+.bg-indigo-600, .bg-indigo-700, .bg-indigo-800, button[class*="bg-indigo"] {
+  background-color: var(--c-indigo-600) !important;
+  color: var(--c-gray-100) !important;
+}
+
+.hover\:bg-indigo-700:hover, button[class*="hover\:bg-indigo"]:hover {
+  background-color: var(--c-indigo-500) !important;
+}
+
+.bg-indigo-100, .bg-indigo-200, button[class*="bg-indigo-1"], button[class*="bg-indigo-2"] {
+  background-color: var(--c-gray-700) !important;
+  color: var(--c-indigo-200) !important;
+}
+
+/* Fix all gray backgrounds for buttons */
+.bg-gray-100, .bg-gray-200, button[class*="bg-gray-1"], button[class*="bg-gray-2"] {
+  background-color: var(--c-gray-700) !important;
+  color: var(--c-text-secondary) !important;
+}
+
+/* Fix button text colors */
+.text-indigo-700, button[class*="text-indigo"] {
+  color: var(--c-indigo-200) !important;
+}
+
+.text-white, button.text-white {
+  color: var(--c-text-primary) !important;
+}
+
+/* Button hover states */
+.hover\:bg-indigo-200:hover, button[class*="hover\:bg"]:hover {
+  background-color: var(--c-gray-600) !important;
+}
+
+.hover\:bg-gray-100:hover {
+  background-color: var(--c-gray-700) !important;
+}
+
+/* Fix borders */
+.border-indigo-600, [class*="border-indigo"] {
+  border-color: var(--c-indigo-500) !important;
+}
+
+/* Timeline content cards */
+.timeline-card, .card, .tile {
+  background-color: var(--c-gray-700) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.timeline-card:hover, .card:hover, .tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+.timeline-card-content {
+  background-color: var(--c-gray-700) !important;
+}
+
+/* Timeline line */
+.timeline-line {
+  background-color: var(--c-gray-600) !important;
+}
+
+/* Filter buttons */
+.category-filter, button[class*="category"] {
+  background-color: var(--c-gray-700) !important;
+  color: var(--c-text-secondary) !important;
+}
+
+.category-filter:hover, button[class*="category"]:hover {
+  background-color: var(--c-gray-600) !important;
+}
+
+.category-filter.active, button[class*="category"].active {
+  background-color: var(--c-indigo-600) !important;
+  color: var(--c-text-primary) !important;
+}
+
+/* Form elements */
+input, select, textarea {
+  background-color: var(--c-gray-700) !important;
+  color: var(--c-text-primary) !important;
+  border-color: var(--c-gray-600) !important;
+}
+
+input::placeholder {
+  color: var(--c-gray-500) !important;
+}
+
+/* Chat modal */
+#chat-modal .bg-white {
+  background-color: var(--c-gray-800) !important;
+}
+
+#chat-messages .bg-gray-100 {
+  background-color: var(--c-gray-700) !important;
+  color: var(--c-text-primary) !important;
+}
+
+/* Toast notification */
+#toast {
+  background-color: var(--c-gray-700) !important;
+}
+
+/* Mobile menu */
+#mobileMenu {
+  background-color: var(--c-gray-800) !important;
+}
+
+/* Fix for timeline dates and badges */
+.timeline-date {
+  background-color: var(--c-gray-700) !important;
+  color: var(--c-text-secondary) !important;
+}
+
+/* Category badges - ensure they're all visible */
+.timeline-category-badge[style*="background-color"] {
+  background-color: var(--c-gray-700) !important;
+  color: var(--c-text-secondary) !important;
+}
+
+/* Ensure all icons are visible */
+i, .fa, .fas, .fab, .far, [class*="fa-"] {
+  color: inherit !important;
+}
+
+/* Fix colored badges by adding border */
+.bg-blue-100, .bg-red-100, .bg-green-100, .bg-yellow-100, .bg-purple-100 {
+  background-color: var(--c-gray-700) !important;
+  border-left: 3px solid;
+}
+
+.bg-blue-100 { border-color: #3b82f6; }
+.bg-red-100 { border-color: #ef4444; }
+.bg-green-100 { border-color: #10b981; }
+.bg-yellow-100 { border-color: #f59e0b; }
+.bg-purple-100 { border-color: #8b5cf6; }
+
+/* Fix specific text colors for headers and timelines */
+.text-blue-800, .text-red-800, .text-green-800, .text-yellow-800, .text-purple-800 {
+  color: var(--c-text-secondary) !important;
+}
+
+/* Custom Footer */
+footer.bg-gray-800 {
+  background-color: var(--c-gray-900) !important;
+}
+
+/* Fix specific classes in the Hero section */
+.bg-gradient-to-r {
+  background: linear-gradient(to right, var(--c-indigo-600), var(--c-indigo-800)) !important;
+}
+
+/* Fix hover colors for featured timelines */
+.timeline-card .timeline-image {
+  border-color: var(--c-gray-700) !important;
+}
+
+/* Fix loading animation */
+.animate-spin {
+  border-color: var(--c-indigo-500) !important;
+}
+
+/* Fix for the hero section */
+.from-indigo-600 {
+  background-color: var(--c-indigo-600) !important;
+}
+
+.to-purple-600 {
+  background-color: var(--c-indigo-800) !important;
+}
+
+/* Fix for features section */
+.bg-gray-50.p-6.rounded-lg {
+  background-color: var(--c-gray-800) !important;
+}
+
+/* Fix for chat input border */
+#chat-input {
+  border-color: var(--c-gray-600) !important;
+}
+
+/* Fix for create timeline form */
+.bg-white.rounded-lg.shadow-md.overflow-hidden {
+  background-color: var(--c-gray-800) !important;
+}
+
+/* Fix text in create timeline form */
+label, .text-xs, .text-sm {
+  color: var(--c-text-secondary) !important;
+}
+
+/* Fix success state */
+.bg-green-100 {
+  background-color: var(--c-gray-700) !important;
+}
+
+.text-green-600 {
+  color: #10b981 !important;
+}
+
+/* Fix background colors for specific sections */
+section.bg-white, section.bg-gray-50 {
+  background-color: var(--c-gray-800) !important;
+} 

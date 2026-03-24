@@ -1,0 +1,144 @@
+/* Features Section */
+.features-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(30, 30, 50, 0.2) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(30, 30, 50, 0.2) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center center;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+.features-glow-1,
+.features-glow-2,
+.features-glow-3 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    z-index: 0;
+}
+
+.features-glow-1 {
+    width: 500px;
+    height: 500px;
+    background: #5d33e6;
+    top: -10%;
+    left: -10%;
+}
+
+.features-glow-2 {
+    width: 600px;
+    height: 600px;
+    background: #0ea5e9;
+    bottom: -20%;
+    right: -10%;
+}
+
+.features-glow-3 {
+    width: 400px;
+    height: 400px;
+    background: #8b5cf6;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Glassmorphism Card */
+.glassmorphism-card {
+    background: rgba(20, 20, 40, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.glassmorphism-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glassmorphism-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.glassmorphism-card:hover::before {
+    left: 100%;
+}
+
+/* Feature Card Elements */
+.feature-card-icon {
+    background: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
+    box-shadow: 0 8px 16px -2px rgba(79, 70, 229, 0.3);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-card-icon {
+    transform: scale(1.1);
+}
+
+.feature-title {
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-title {
+    color: #6366f1;
+}
+
+.feature-link {
+    color: #8b5cf6;
+    transition: all 0.3s ease;
+}
+
+.feature-link:hover {
+    color: #a78bfa;
+}
+
+/* Animation classes */
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.visible {
+    opacity: 1;
+}
+
+/* Feature Section Responsive */
+@media (max-width: 768px) {
+    .feature-card {
+        margin-bottom: 20px;
+    }
+} 

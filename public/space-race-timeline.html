@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Space Race Timeline</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="css/timeline.css">
+  <link rel="stylesheet" href="css/timeline-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/dark-theme.css">
+  <link rel="stylesheet" href="css/glass-theme.css">
+  <link rel="stylesheet" href="css/card-style.css">
+  <style>
+    /* Additional styles for poster view */
+    body.poster-view-active {
+      background-color: rgb(104, 130, 104);
+    }
+    
+    /* Ensure proper styling for movie poster mode */
+    .poster--portrait .timeline-card-content {
+      display: none;
+    }
+    
+    .poster--portrait .timeline-image {
+      height: 100%;
+      width: 100%;
+    }
+    
+    .poster--portrait .timeline-image img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen dark-mode">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm py-4">
+    <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <div class="flex items-center">
+        <a href="index.html" class="text-2xl font-bold text-indigo-800">HistoryWeaver</a>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html" class="text-gray-700 hover:text-indigo-600">Home</a>
+        <a href="timelines.html" class="text-gray-700 hover:text-indigo-600">My Timelines</a>
+        <a href="create.html" class="text-gray-700 hover:text-indigo-600">Create New</a>
+        <a href="#" class="text-gray-700 hover:text-indigo-600">About</a>
+      </div>
+      <div>
+        <button id="mobileMenuBtn" class="md:hidden text-gray-700">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+        <div class="hidden md:block">
+          <button id="userProfileBtn" class="flex items-center space-x-2">
+            <img src="https://placehold.co/32x32/4f46e5/FFFFFF?text=User" alt="Profile" class="w-8 h-8 rounded-full">
+            <span class="text-gray-700">John Doe</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-white shadow-md py-3 px-4">
+    <div class="flex flex-col space-y-3">
+      <a href="index.html" class="text-gray-700 hover:text-indigo-600">Home</a>
+      <a href="timelines.html" class="text-gray-700 hover:text-indigo-600">My Timelines</a>
+      <a href="create.html" class="text-gray-700 hover:text-indigo-600">Create New</a>
+      <a href="#" class="text-gray-700 hover:text-indigo-600">About</a>
+      <div class="border-t border-gray-200 pt-3 mt-3">
+        <button class="flex items-center space-x-2">
+          <img src="https://placehold.co/32x32/4f46e5/FFFFFF?text=User" alt="Profile" class="w-8 h-8 rounded-full">
+          <span class="text-gray-700">John Doe</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Header -->
+  <header class="bg-white shadow-sm py-8">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div>
+          <h1 id="timelineTitle" class="text-3xl font-bold text-gray-800 mb-2">The Space Race</h1>
+          <p id="timelineDescription" class="text-gray-600 max-w-2xl">A timeline of the Cold War competition between the US and the Soviet Union to achieve milestones in space exploration.</p>
+        </div>
+        <div class="mt-4 md:mt-0 flex flex-wrap gap-2">
+          <button id="shareTimelineBtn" class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 transition-colors flex items-center">
+            <i class="fas fa-share-alt mr-2"></i> Share
+          </button>
+          <button id="downloadTimelineBtn" class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 transition-colors flex items-center">
+            <i class="fas fa-download mr-2"></i> Download
+          </button>
+          <button id="aiChatBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors flex items-center">
+            <i class="fas fa-robot mr-2"></i> Chat with AI
+          </button>
+          <button id="editTimelineBtn" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition-colors flex items-center">
+            <i class="fas fa-edit mr-2"></i> Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Timeline Filters -->
+  <div class="bg-white shadow-sm mt-4">
+    <div class="container mx-auto px-4 md:px-6 py-4">
+      <div class="flex flex-wrap items-center gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Filter by category:</label>
+          <div class="flex flex-wrap gap-2">
+            <button class="category-filter px-3 py-1 bg-green-100 text-green-800 rounded-full hover:bg-green-200 transition-colors text-sm" data-category="scientific">
+              <i class="fas fa-flask mr-1"></i> Scientific
+            </button>
+             <button class="category-filter px-3 py-1 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200 transition-colors text-sm" data-category="political">
+              <i class="fas fa-landmark mr-1"></i> Political
+            </button>
+            <button class="category-filter px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full hover:bg-yellow-200 transition-colors text-sm" data-category="milestone">
+              <i class="fas fa-flag-checkered mr-1"></i> Milestone
+            </button>
+          </div>
+        </div>
+        <div class="ml-auto">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Time period:</label>
+          <select id="timePeriodFilter" class="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="all">All time</option>
+            <option value="1950s">1950s</option>
+            <option value="1960s">1960s</option>
+            <option value="1970s">1970s</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Content -->
+  <main class="container mx-auto px-4 md:px-6 py-8">
+    <div id="timelineContainer" class="timeline-container relative pb-20">
+      <!-- Timeline loading indicator -->
+      <div id="timeline-loading" class="flex justify-center items-center h-64">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-700 mx-auto mb-4"></div>
+          <p class="text-gray-600">Loading timeline events...</p>
+        </div>
+      </div>
+      
+      <!-- Timeline content (initially hidden) -->
+      <div id="timeline-content" class="hidden">
+        <!-- Timeline line -->
+        <div class="timeline-line"></div>
+        
+        <!-- Placeholder Space Race Events -->
+        <div class="timeline-event timeline-left" data-category="milestone">
+          <div class="timeline-content">
+            <div class="timeline-dot" style="background-color: #FBBF24;"></div>
+            <div class="timeline-date">October 4, 1957</div>
+            <div class="timeline-card">
+              <div class="timeline-image">
+                <img src="#" alt="Sputnik 1 Launch" class="w-full h-48 object-cover">
+              </div>
+              <div class="timeline-card-content">
+                <div class="mb-2">
+                  <span class="timeline-category-badge" style="background-color: #FEF3C7; color: #92400E;">
+                    <i class="fas fa-flag-checkered mr-1"></i> Milestone
+                  </span>
+                </div>
+                <h3 class="timeline-event-title">Sputnik 1 Launch</h3>
+                <p class="timeline-event-description">The Soviet Union launches Sputnik 1, the first artificial Earth satellite, officially beginning the Space Race.</p>
+                <div class="mt-4 flex justify-end">
+                  <button class="learn-more-btn">
+                    <i class="fas fa-info-circle mr-1"></i> Learn more
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="timeline-event timeline-right" data-category="milestone">
+          <div class="timeline-content">
+            <div class="timeline-dot" style="background-color: #FBBF24;"></div>
+            <div class="timeline-date">April 12, 1961</div>
+            <div class="timeline-card">
+              <div class="timeline-image">
+                <img src="#" alt="Yuri Gagarin First Human in Space" class="w-full h-48 object-cover">
+              </div>
+              <div class="timeline-card-content">
+                <div class="mb-2">
+                   <span class="timeline-category-badge" style="background-color: #FEF3C7; color: #92400E;">
+                    <i class="fas fa-flag-checkered mr-1"></i> Milestone
+                  </span>
+                </div>
+                <h3 class="timeline-event-title">First Human in Space</h3>
+                <p class="timeline-event-description">Soviet cosmonaut Yuri Gagarin becomes the first human to journey into outer space aboard Vostok 1.</p>
+                 <div class="mt-4 flex justify-end">
+                  <button class="text-indigo-600 hover:text-indigo-800 text-sm flex items-center">
+                    <i class="fas fa-info-circle mr-1"></i> Learn more
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+         <div class="timeline-event timeline-left" data-category="political">
+          <div class="timeline-content">
+            <div class="timeline-dot" style="background-color: #3B82F6;"></div>
+            <div class="timeline-date">May 25, 1961</div>
+            <div class="timeline-card">
+              <div class="timeline-image">
+                <img src="#" alt="Kennedy's Moon Shot Speech" class="w-full h-48 object-cover">
+              </div>
+              <div class="timeline-card-content">
+                <div class="mb-2">
+                  <span class="timeline-category-badge" style="background-color: #DBEAFE; color: #1E40AF;">
+                    <i class="fas fa-landmark mr-1"></i> Political
+                  </span>
+                </div>
+                <h3 class="timeline-event-title">Kennedy's Moon Shot Speech</h3>
+                <p class="timeline-event-description">President John F. Kennedy announces the goal of landing a man on the Moon before the end of the decade.</p>
+                <div class="mt-4 flex justify-end">
+                  <button class="text-indigo-600 hover:text-indigo-800 text-sm flex items-center">
+                    <i class="fas fa-info-circle mr-1"></i> Learn more
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-event timeline-right" data-category="milestone">
+          <div class="timeline-content">
+            <div class="timeline-dot" style="background-color: #FBBF24;"></div>
+            <div class="timeline-date">July 20, 1969</div>
+            <div class="timeline-card">
+              <div class="timeline-image">
+                <img src="#" alt="Apollo 11 Moon Landing" class="w-full h-48 object-cover">
+              </div>
+              <div class="timeline-card-content">
+                <div class="mb-2">
+                   <span class="timeline-category-badge" style="background-color: #FEF3C7; color: #92400E;">
+                    <i class="fas fa-flag-checkered mr-1"></i> Milestone
+                  </span>
+                </div>
+                <h3 class="timeline-event-title">Apollo 11 Moon Landing</h3>
+                <p class="timeline-event-description">NASA's Apollo 11 mission successfully lands the first humans, Neil Armstrong and Buzz Aldrin, on the Moon.</p>
+                 <div class="mt-4 flex justify-end">
+                  <button class="text-indigo-600 hover:text-indigo-800 text-sm flex items-center">
+                    <i class="fas fa-info-circle mr-1"></i> Learn more
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-event timeline-left" data-category="scientific">
+          <div class="timeline-content">
+            <div class="timeline-dot" style="background-color: #10B981;"></div>
+            <div class="timeline-date">July 15, 1975</div>
+            <div class="timeline-card">
+              <div class="timeline-image">
+                <img src="#" alt="Apollo-Soyuz Test Project" class="w-full h-48 object-cover">
+              </div>
+              <div class="timeline-card-content">
+                 <div class="mb-2">
+                   <span class="timeline-category-badge" style="background-color: #D1FAE5; color: #065F46;">
+                     <i class="fas fa-flask mr-1"></i> Scientific
+                   </span>
+                 </div>
+                <h3 class="timeline-event-title">Apollo-Soyuz Test Project</h3>
+                <p class="timeline-event-description">The US Apollo spacecraft docks with the Soviet Soyuz capsule in orbit, marking a symbol of détente and the symbolic end of the Space Race.</p>
+                <div class="mt-4 flex justify-end">
+                  <button class="text-indigo-600 hover:text-indigo-800 text-sm flex items-center">
+                    <i class="fas fa-info-circle mr-1"></i> Learn more
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- End timeline-content -->
+    </div> <!-- End timelineContainer -->
+  </main>
+
+  <!-- AI Chat Button (Fixed) -->
+  <button id="chat-toggle-btn" class="fixed bottom-6 right-6 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 z-20">
+    <i class="fas fa-comment-alt"></i>
+  </button>
+  
+  <!-- Dark Mode Toggle Button -->
+  <button id="dark-mode-toggle" class="fixed bottom-24 right-6 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 z-20">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- AI Chat Modal -->
+   <div id="chat-modal" class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 md:mx-auto">
+      <div class="flex justify-between items-center p-4 border-b">
+        <h3 class="font-bold text-lg">History AI Assistant</h3>
+        <button id="close-chat-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="chat-messages" class="p-4 h-80 overflow-y-auto">
+        <!-- Chat messages go here -->
+         <div class="mb-4 flex">
+          <div class="flex-shrink-0 mr-2">
+            <div class="bg-indigo-100 rounded-full p-2">
+              <i class="fas fa-robot text-indigo-600"></i>
+            </div>
+          </div>
+          <div class="bg-gray-100 rounded-lg p-3 max-w-xs md:max-w-md">
+            <p>Hello! Ask me about the Space Race timeline.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 border-t">
+        <form id="chat-form" class="flex">
+          <input type="text" id="chat-input" class="flex-grow px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ask about this timeline...">
+          <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-r-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-4 left-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+    <span id="toast-message">Timeline saved successfully!</span>
+  </div>
+
+  <!-- Include timeline-view.js script -->
+  <script src="js/timeline-view.js"></script>
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+  <script src="js/app.js"></script>
+  <script src="js/timeline.js"></script>
+</body>
+</html> 

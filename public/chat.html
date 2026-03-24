@@ -1,0 +1,44 @@
+/* Global Typography & Base */
+body {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Colorful gradient background with glow effects */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 15% 20%, rgba(138, 43, 226, 0.4), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.3), transparent 25%),
+    radial-gradient(circle at 75% 80%, rgba(0, 0, 255, 0.35), transparent 30%),
+    radial-gradient(circle at 25% 70%, rgba(138, 43, 226, 0.3), transparent 25%);
+  filter: blur(40px);
+  z-index: -1;
+  opacity: 0.6;
+}
+
+/* Background grid pattern with radial gradient mask */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-size: 3rem 3rem;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%);
+  opacity: 0.2;
+  z-index: 0;
+  pointer-events: none;
+} 

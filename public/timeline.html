@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Timeline View - HistoryWeaver</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <!-- Font imports -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="css/timeline.css">
+  <link rel="stylesheet" href="css/timeline-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/dark-theme.css">
+  <link rel="stylesheet" href="css/glass-theme.css">
+  <link rel="stylesheet" href="css/card-style.css">
+  <!-- Add html2canvas library for screenshots -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f172a; /* Dark background */
+      color: #e2e8f0; /* Light text */
+      min-height: 100vh;
+      letter-spacing: -0.02em;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+      background-image: 
+        radial-gradient(circle at top right, rgba(79, 70, 229, 0.15), transparent 50%),
+        radial-gradient(circle at bottom left, rgba(129, 140, 248, 0.1), transparent 50%);
+    }
+    
+    /* Header styles */
+    header {
+      background: rgba(30, 41, 59, 0.5) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(79, 70, 229, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Navigation bar */
+    nav {
+      background: rgba(30, 41, 59, 0.7) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(79, 70, 229, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    nav a {
+      color: #e2e8f0 !important;
+      transition: all 0.3s ease;
+    }
+    
+    nav a:hover {
+      color: #818cf8 !important;
+      transform: translateY(-2px);
+    }
+    
+    h1 {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      background: linear-gradient(to right, #ffffff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h2, h3 {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+    }
+    
+    /* Button styling */
+    button {
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+    }
+    
+    /* Control buttons */
+    .control-btn {
+      background: rgba(79, 70, 229, 0.2);
+      border: 1px solid rgba(79, 70, 229, 0.4);
+      color: #e2e8f0;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .control-btn:hover {
+      background: rgba(79, 70, 229, 0.3);
+      border-color: rgba(79, 70, 229, 0.6);
+      box-shadow: 0 6px 15px rgba(79, 70, 229, 0.2);
+    }
+    
+    .control-btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      border: none;
+      color: white;
+    }
+    
+    .control-btn-primary:hover {
+      background: linear-gradient(135deg, #4338ca, #4f46e5);
+      box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+    }
+
+    /* Existing timeline-card-content styles with improvements */
+    .timeline-card-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: visible;
+      background: rgba(30, 41, 59, 0.8);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(5px);
+    }
+
+    .timeline-event-description {
+      flex-grow: 1;
+      overflow: visible;
+      word-wrap: break-word;
+      line-height: 1.6;
+      color: rgba(226, 232, 240, 0.9);
+    }
+
+    /* Prevent any potential scrolling */
+    .timeline-card-content * {
+      overflow: visible !important;
+    }
+
+    /* Timeline Card Styles */
+    .timeline-card {
+      background: rgba(30, 41, 59, 0.3);
+      backdrop-filter: blur(12px);
+      border-radius: 1rem;
+      overflow: visible;
+      position: relative;
+      margin: 0.75rem 0;
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      min-height: fit-content;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(79, 70, 229, 0.2);
+      transition: all 0.4s ease;
+    }
+    
+    .timeline-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(79, 70, 229, 0.25);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .timeline-image {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      position: relative;
+    }
+    
+    .timeline-image::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.7) 100%);
+      z-index: 1;
+    }
+
+    .timeline-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    
+    .timeline-card:hover .timeline-image img {
+      transform: scale(1.05);
+    }
+
+    .timeline-card-content {
+      padding: 1.25rem;
+      background: rgba(30, 41, 59, 0.8);
+      border-bottom-left-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      height: auto;
+      min-height: fit-content;
+    }
+
+    .timeline-event-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      line-height: 1.4;
+    }
+
+    .timeline-event-description {
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      flex-grow: 1;
+      height: auto;
+      min-height: fit-content;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
+
+    .timeline-category-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .learn-more-btn {
+      color: #818cf8;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      margin-top: 0.75rem;
+      padding: 0.35rem 0.5rem;
+      border-radius: 0.375rem;
+      background: rgba(79, 70, 229, 0.1);
+      border: 1px solid rgba(79, 70, 229, 0.2);
+    }
+
+    .learn-more-btn:hover {
+      color: #a5b4fc;
+      background: rgba(79, 70, 229, 0.2);
+      border-color: rgba(79, 70, 229, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Timeline event container */
+    .timeline-event {
+      width: 100%;
+      margin: 2rem 0;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    
+    .timeline-event.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-content {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    /* Timeline line styling */
+    .timeline-line {
+      background: linear-gradient(to bottom, 
+        rgba(79, 70, 229, 0.2), 
+        rgba(79, 70, 229, 0.6),
+        rgba(79, 70, 229, 0.2)
+      );
+      box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+    }
+    
+    /* Timeline dots */
+    .timeline-dot {
+      box-shadow: 0 0 10px currentColor;
+      border: 3px solid #0f172a;
+    }
+
+    /* Ensure proper spacing and alignment */
+    .timeline-event.timeline-left .timeline-content {
+      margin-right: 2rem;
+    }
+
+    .timeline-event.timeline-right .timeline-content {
+      margin-left: 2rem;
+    }
+    
+    /* Timeline date styling */
+    .timeline-date {
+      position: relative;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: #a5b4fc;
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(79, 70, 229, 0.15);
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Filter pills styling */
+    .category-filter {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .category-filter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .category-filter.active {
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
+    }
+
+    /* Media query for smaller screens */
+    @media (max-width: 768px) {
+      .timeline-card {
+        max-width: 100%;
+      }
+
+      .timeline-card-content {
+        padding: 1rem;
+      }
+
+      .timeline-event-title {
+        font-size: 1.125rem;
+      }
+
+      .timeline-event-description {
+        font-size: 0.875rem;
+      }
+    }
+    
+    /* Animations */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+    }
+    
+    /* Floating buttons */
+    #chat-toggle-btn, #dark-mode-toggle {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+      transition: all 0.3s ease;
+    }
+    
+    #chat-toggle-btn:hover, #dark-mode-toggle:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5);
+    }
+
+    /* Timeline display styles */
+    .timeline-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, #4f46e5, transparent);
+      transform: translateX(-50%);
+    }
+
+    .timeline-event {
+      position: relative;
+      margin-bottom: 40px;
+      width: calc(50% - 30px);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .timeline-event.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-event:nth-child(odd) {
+      margin-left: auto;
+      padding-left: 40px;
+    }
+
+    .timeline-event:nth-child(even) {
+      padding-right: 40px;
+    }
+
+    .timeline-event::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: #4f46e5;
+      border: 3px solid #818cf8;
+      border-radius: 50%;
+      top: 20px;
+    }
+
+    .timeline-event:nth-child(odd)::before {
+      left: -8px;
+    }
+
+    .timeline-event:nth-child(even)::before {
+      right: -8px;
+    }
+
+    .event-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .event-date {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      margin-bottom: 12px;
+    }
+
+    .event-title {
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .event-description {
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .timeline-event {
+        width: 100%;
+        padding: 0 0 0 40px;
+        margin-bottom: 30px;
+      }
+
+      .timeline-line {
+        left: 20px;
+      }
+
+      .timeline-event::before {
+        left: 12px !important;
+      }
+    }
+
+    /* New styles for image handling */
+    .timeline-image-container {
+      background: rgba(79, 70, 229, 0.1);
+      border-top-left-radius: 0.75rem;
+      border-top-right-radius: 0.75rem;
+    }
+
+    .fallback-image {
+      opacity: 0.8;
+      filter: grayscale(20%);
+    }
+
+    .event-content {
+      background: rgba(30, 41, 59, 0.95);
+      border-bottom-left-radius: 0.75rem;
+      border-bottom-right-radius: 0.75rem;
+    }
+
+    .event-card {
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Add styles for filter pills */
+    .filter-pill {
+      background: rgba(79, 70, 229, 0.1);
+      border: 1px solid rgba(79, 70, 229, 0.2);
+      color: #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .filter-pill:hover, .filter-pill.active {
+      background: rgba(79, 70, 229, 0.2);
+      border-color: rgba(79, 70, 229, 0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-pill.active {
+      background: rgba(79, 70, 229, 0.3);
+      border-color: rgba(79, 70, 229, 0.5);
+      color: white;
+    }
+
+    /* Time period filter styles */
+    select {
+      background-color: rgba(17, 24, 39, 0.8);
+      border-color: rgba(79, 70, 229, 0.2);
+      transition: all 0.3s ease;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1.25rem;
+      padding-right: 2.5rem;
+    }
+
+    select:hover {
+      border-color: rgba(79, 70, 229, 0.4);
+    }
+
+    select:focus {
+      outline: none;
+      border-color: rgba(79, 70, 229, 0.6);
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .md\:border-l {
+        border-left: none;
+        padding-left: 0;
+        margin-top: 1rem;
+      }
+    }
+  </style>
+  
+  <!-- Timeline Scripts -->
+  <script>
+    // Unsplash API configuration
+    const UNSPLASH_ACCESS_KEY = 'YOUR_UNSPLASH_ACCESS_KEY'; // Replace with your Unsplash access key
+    const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
+
+    // Function to fetch image from Unsplash with retries and error handling
+    async function fetchUnsplashImage(query) {
+      try {
+        // Add historical context to improve search results
+        const enhancedQuery = `historical ${query} vintage`;
+        
+        const response = await fetch(`${UNSPLASH_API_URL}?query=${encodeURIComponent(enhancedQuery)}&per_page=1&orientation=landscape`, {
+          headers: {
+            'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`,
+            'Accept-Version': 'v1'
+          }
+        });
+
+        if (response.status === 403) {
+          console.warn('Unsplash API authentication failed. Check your API key.');
+          return null;
+        }
+
+        if (response.status === 429) {
+          console.warn('Unsplash API rate limit reached.');
+          return null;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Unsplash API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.results && data.results.length > 0) {
+          // Use the regular size image for better performance
+          return data.results[0].urls.regular;
+        }
+        
+        console.warn(`No images found for query: ${query}`);
+        return null;
+      } catch (error) {
+        console.warn(`Failed to fetch Unsplash image for "${query}":`, error);
+        return null;
+      }
+    }
+
+    // Default historical images for different categories (with focus on Indian history)
+    const HISTORICAL_IMAGES = {
+      'delhi sultanate': 'https://images.unsplash.com/photo-1548013146-72479768bada',
+      'mughal': 'https://images.unsplash.com/photo-1564507592333-c60657eea523',
+      'dynasty': 'https://images.unsplash.com/photo-1605649487212-47bdab064df7',
+      'battle': 'https://images.unsplash.com/photo-1544921431-6be6c5b2d8c1',
+      'invasion': 'https://images.unsplash.com/photo-1580130281320-0ef0754f2bf7',
+      'empire': 'https://images.unsplash.com/photo-1569411032431-07598b0012c2',
+      'sultan': 'https://images.unsplash.com/photo-1548013146-72479768bada',
+      'fort': 'https://images.unsplash.com/photo-1564507592333-c60657eea523',
+      'palace': 'https://images.unsplash.com/photo-1605649487212-47bdab064df7',
+      'default': 'https://images.unsplash.com/photo-1461360370896-922624d12aa1'
+    };
+
+    // Function to generate a data URL for placeholder image
+    function generatePlaceholderDataUrl(text) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 800;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+      
+      // Background
+      ctx.fillStyle = '#4f46e5';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Text
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 32px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      
+      // Word wrap the text
+      const words = text.split(' ');
+      let lines = [];
+      let currentLine = words[0];
+      const maxWidth = 700;
+      
+      for (let i = 1; i < words.length; i++) {
+        const word = words[i];
+        const width = ctx.measureText(currentLine + " " + word).width;
+        if (width < maxWidth) {
+          currentLine += " " + word;
+        } else {
+          lines.push(currentLine);
+          currentLine = word;
+        }
+      }
+      lines.push(currentLine);
+      
+      // Draw each line
+      const lineHeight = 40;
+      const startY = canvas.height/2 - (lines.length - 1) * lineHeight/2;
+      lines.forEach((line, i) => {
+        ctx.fillText(line, canvas.width/2, startY + i * lineHeight);
+      });
+      
+      return canvas.toDataURL('image/png');
+    }
+
+    // Function to create a reliable placeholder
+    function createPlaceholderImage(title) {
+      // Clean and limit the title
+      const cleanTitle = title.substring(0, 50).replace(/[^\w\s-]/g, ' ').trim();
+      return generatePlaceholderDataUrl(cleanTitle);
+    }
+
+    // Function to get default historical image with better matching
+    function getDefaultHistoricalImage(title, description) {
+      const text = (title + ' ' + (description || '')).toLowerCase();
+      
+      // Try exact matches first
+      for (const [key, value] of Object.entries(HISTORICAL_IMAGES)) {
+        if (text.includes(key)) {
+          return value;
+        }
+      }
+      
+      // Try partial matches
+      const words = text.split(/\s+/);
+      for (const word of words) {
+        for (const [key, value] of Object.entries(HISTORICAL_IMAGES)) {
+          if (word.includes(key) || key.includes(word)) {
+            return value;
+          }
+        }
+      }
+      
+      return HISTORICAL_IMAGES.default;
+    }
+
+    // Update createTimelineEvents function
+    async function createTimelineEvents(events) {
+      if (!Array.isArray(events)) {
+        console.error('Invalid events data:', events);
+        return;
+      }
+
+      const container = document.getElementById('timelineEvents');
+      container.innerHTML = '';
+
+      // Process events with image loading
+      for (const event of events) {
+        const eventElement = document.createElement('div');
+        eventElement.className = 'timeline-event';
+
+        // Ensure all required fields exist
+        const eventData = {
+          date: event.date || 'Date unknown',
+          title: event.title || 'Untitled Event',
+          description: event.description || 'No description available'
+        };
+
+        // Try to get image in order of preference
+        let imageUrl = null;
+        
+        // 1. Try event's provided image if any
+        if (event.imageUrl) {
+          imageUrl = event.imageUrl;
+        }
+        
+        // 2. Try Unsplash if no image provided
+        if (!imageUrl && UNSPLASH_ACCESS_KEY !== 'YOUR_UNSPLASH_ACCESS_KEY') {
+          imageUrl = await fetchUnsplashImage(eventData.title);
+        }
+        
+        // 3. Use default historical image if Unsplash fails
+        if (!imageUrl) {
+          imageUrl = getDefaultHistoricalImage(eventData.title, eventData.description);
+        }
+        
+        // 4. Final fallback to generated placeholder
+        if (!imageUrl) {
+          imageUrl = createPlaceholderImage(eventData.title);
+        }
+
+        const eventId = event.id || Math.random().toString(36).substr(2, 9);
+        
+        // Create image HTML with progressive loading and error handling - REMOVE DARK OVERLAY
+        const imageHtml = `
+          <div class="timeline-image-container relative overflow-hidden h-48">
+            <div class="absolute inset-0 bg-indigo-900/20 animate-pulse" id="loading-${eventId}"></div>
+            <img 
+              src="${imageUrl}"
+              alt="${eventData.title}"
+              class="w-full h-full object-cover transition-opacity duration-300"
+              onload="this.classList.remove('opacity-0'); this.parentElement.querySelector('[id^=loading-]')?.remove();"
+              onerror="this.onerror=null; this.src='${createPlaceholderImage(eventData.title)}'; this.classList.add('fallback-image');"
+            >
+          </div>
+        `;
+
+        eventElement.innerHTML = `
+          <div class="event-card">
+            ${imageHtml}
+            <div class="event-content p-4">
+              <span class="event-date">${eventData.date}</span>
+              <h3 class="event-title">${eventData.title}</h3>
+              <p class="event-description">${eventData.description}</p>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(eventElement);
+        
+        // Trigger animation
+        requestAnimationFrame(() => {
+          eventElement.classList.add('visible');
+        });
+      }
+
+      // Store the events
+      currentEvents = events;
+    }
+
+    // Add styles for enhanced image handling
+    const imageStyles = document.createElement('style');
+    imageStyles.textContent = `
+      .timeline-image-container {
+        background: rgba(79, 70, 229, 0.1);
+        border-top-left-radius: 0.75rem;
+        border-top-right-radius: 0.75rem;
+      }
+
+      .timeline-image-container img {
+        will-change: opacity;
+      }
+
+      .fallback-image {
+        opacity: 0.8;
+        filter: grayscale(20%) brightness(0.9);
+      }
+
+      @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+      }
+
+      .animate-pulse {
+        background: linear-gradient(
+          to right,
+          rgba(79, 70, 229, 0.1) 0%,
+          rgba(79, 70, 229, 0.2) 50%,
+          rgba(79, 70, 229, 0.1) 100%
+        );
+        background-size: 1000px 100%;
+        animation: shimmer 2s infinite linear;
+      }
+    `;
+    document.head.appendChild(imageStyles);
+  </script>
+</head>
+<body class="dark-theme bg-gray-900 relative">
+  <!-- Navigation -->
+  <nav class="fixed w-full z-50 glassmorphism py-4">
+    <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <a href="index.html" class="text-2xl font-bold text-white hover:text-indigo-300 transition-colors">
+        <i class="fas fa-stream text-indigo-400 mr-2"></i>
+        HistoryWeaver
+      </a>
+      <a href="timelines.html" class="text-gray-300 hover:text-white transition-colors">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Back to Timelines
+      </a>
+    </div>
+  </nav>
+
+  <!-- Timeline Header -->
+  <header class="pt-24 pb-12 px-4">
+    <div class="container mx-auto">
+      <h1 id="timelineTitle" class="text-4xl font-bold mb-4 text-white"></h1>
+      <p id="timelinePeriod" class="text-xl text-indigo-300 mb-6"></p>
+      
+      <!-- Control buttons -->
+      <div class="flex flex-wrap items-center gap-4 mb-8">
+        <button id="shareTimelineBtn" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-all duration-300 flex items-center">
+          <i class="fas fa-share-alt mr-2"></i> Share
+        </button>
+        <button id="downloadTimelineBtn" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-all duration-300 flex items-center">
+          <i class="fas fa-download mr-2"></i> Download
+        </button>
+        <button id="aiChatBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all duration-300 flex items-center">
+          <i class="fas fa-robot mr-2"></i> Chat with AI
+        </button>
+      </div>
+
+      <!-- Filters Section -->
+      <div class="bg-gray-800/50 rounded-xl p-6 backdrop-blur-sm border border-gray-700/50 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center gap-6">
+          <!-- Category Filters -->
+          <div class="flex-1">
+            <label class="text-gray-300 text-sm font-medium mb-2 block">Filter by Category:</label>
+            <div id="categoryFilters" class="flex flex-wrap gap-2">
+              <button class="filter-pill active px-4 py-2 rounded-full text-sm flex items-center" data-category="all">
+                <i class="fas fa-globe mr-2"></i> All Events
+              </button>
+              <button class="filter-pill px-4 py-2 rounded-full text-sm flex items-center" data-category="military">
+                <i class="fas fa-fighter-jet mr-2"></i> Military
+              </button>
+              <button class="filter-pill px-4 py-2 rounded-full text-sm flex items-center" data-category="political">
+                <i class="fas fa-landmark mr-2"></i> Political
+              </button>
+              <button class="filter-pill px-4 py-2 rounded-full text-sm flex items-center" data-category="cultural">
+                <i class="fas fa-theater-masks mr-2"></i> Cultural
+              </button>
+              <button class="filter-pill px-4 py-2 rounded-full text-sm flex items-center" data-category="scientific">
+                <i class="fas fa-microscope mr-2"></i> Scientific
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Timeline Content -->
+  <main class="container mx-auto px-4">
+    <div id="timelineContainer" class="timeline-container">
+      <!-- Loading Indicator -->
+      <div id="timeline-loading" class="hidden flex items-center justify-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+        <p class="ml-3 text-gray-400">Loading timeline...</p>
+      </div>
+      
+      <!-- Timeline Content Area -->
+      <div id="timeline-content" class="relative">
+        <div class="timeline-line"></div>
+        <div id="timelineEvents"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- AI Chat Modal -->
+  <div id="chat-modal" class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center">
+    <div class="bg-indigo-900 bg-opacity-90 backdrop-blur-lg rounded-lg shadow-xl w-full max-w-md mx-4 md:mx-auto border border-indigo-500 border-opacity-30">
+      <div class="flex justify-between items-center p-4 border-b border-indigo-700">
+        <h3 class="font-bold text-lg text-white">History AI Assistant</h3>
+        <button id="close-chat-btn" class="text-gray-300 hover:text-white focus:outline-none">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="chat-messages" class="p-4 h-80 overflow-y-auto">
+        <div class="mb-4 flex">
+          <div class="flex-shrink-0 mr-2">
+            <div class="bg-indigo-600 rounded-full p-2">
+              <i class="fas fa-robot text-white"></i>
+            </div>
+          </div>
+          <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-xs md:max-w-md text-white">
+            <p>Hello! I'm your historical AI assistant. How can I help you explore this timeline?</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 border-t border-indigo-700">
+        <form id="chat-form" class="flex">
+          <input type="text" id="chat-input" class="flex-grow px-4 py-2 bg-indigo-800 bg-opacity-40 border border-indigo-600 text-white rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ask about this timeline...">
+          <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-r-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-4 left-4 bg-indigo-900 text-white px-6 py-3 rounded-lg shadow-lg z-50 border border-indigo-500 border-opacity-50 backdrop-filter backdrop-blur-lg">
+    <span id="toast-message">Timeline saved successfully!</span>
+  </div>
+
+  <script>
+    // Get timeline data from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const timelineId = urlParams.get('id');
+    const timelineTitle = urlParams.get('title');
+    const timelinePeriod = urlParams.get('period');
+
+    // Set header information
+    document.getElementById('timelineTitle').textContent = timelineTitle || 'Timeline View';
+    document.getElementById('timelinePeriod').textContent = timelinePeriod || '';
+    document.title = `${timelineTitle} - HistoryWeaver`;
+
+    let currentEvents = []; // Store current timeline events
+
+    // Function to generate timeline from API
+    async function generateTimeline(prompt) {
+      try {
+        const response = await fetch('/api/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ prompt })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to generate timeline');
+        }
+        
+        const data = await response.json();
+        
+        // Validate and process the timeline data
+        if (!data || !data.timeline || !Array.isArray(data.timeline)) {
+          throw new Error('Invalid timeline data received');
+        }
+
+        // Sort events by date if dates are available
+        const sortedEvents = data.timeline.sort((a, b) => {
+          if (!a.date || !b.date) return 0;
+          return new Date(a.date) - new Date(b.date);
+        });
+
+        return sortedEvents;
+      } catch (error) {
+        console.error('Error generating timeline:', error);
+        throw error;
+      }
+    }
+
+    // Button handlers
+    document.getElementById('shareTimelineBtn').addEventListener('click', function() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url)
+        .then(() => alert('Timeline link copied to clipboard!'))
+        .catch(err => console.error('Failed to copy:', err));
+    });
+
+    document.getElementById('downloadTimelineBtn').addEventListener('click', function() {
+      // Show a loading message
+      showToast("Capturing timeline image...");
+      
+      // Select the timeline container to capture
+      const timelineContainer = document.getElementById('timelineContainer');
+      
+      // Use html2canvas to capture the timeline as an image
+      html2canvas(timelineContainer, {
+        backgroundColor: "#0f172a", // Match background color
+        scale: 2, // Higher quality
+        useCORS: true, // Allow cross-origin images
+        allowTaint: true,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.offsetWidth,
+        windowHeight: document.documentElement.offsetHeight
+      }).then(function(canvas) {
+        // Convert canvas to image data URL
+        const imageData = canvas.toDataURL('image/png');
+        
+        // Create a link to download the image
+        const link = document.createElement('a');
+        link.href = imageData;
+        link.download = `${timelineTitle || 'timeline'}-screenshot.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show success message
+        showToast("Timeline image downloaded successfully!");
+      }).catch(function(error) {
+        console.error("Error capturing screenshot:", error);
+        showToast("Failed to capture timeline image.", true);
+      });
+    });
+
+    // Function to show toast notification
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      
+      if (isError) {
+        toast.classList.add('bg-red-900');
+      } else {
+        toast.classList.remove('bg-red-900');
+      }
+      
+      toastMessage.textContent = message;
+      toast.classList.remove('hidden');
+      
+      // Hide toast after 3 seconds
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // AI Chat button handler
+    document.getElementById('aiChatBtn').addEventListener('click', async function() {
+      // Open the chat modal directly instead of showing a prompt
+      const chatModal = document.getElementById('chat-modal');
+      if (chatModal) {
+        chatModal.classList.remove('hidden');
+        
+        // Add an initial greeting message if the chat is empty
+        const chatMessages = document.getElementById('chat-messages');
+        if (chatMessages && chatMessages.children.length <= 1) {
+          // Add a system message about timeline generation
+          const systemMessage = document.createElement('div');
+          systemMessage.className = 'mb-4 flex';
+          systemMessage.innerHTML = `
+            <div class="flex-shrink-0 mr-2">
+              <div class="bg-indigo-600 rounded-full p-2">
+                <i class="fas fa-robot text-white"></i>
+              </div>
+            </div>
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-xs md:max-w-md text-white">
+              <p>To generate a new timeline, type your topic of interest, for example "World War II" or "History of Computing".</p>
+            </div>
+          `;
+          chatMessages.appendChild(systemMessage);
+        }
+        
+        // Focus the input field
+        const chatInput = document.getElementById('chat-input');
+        if (chatInput) {
+          chatInput.focus();
+        }
+      }
+    });
+
+    // Initialize timeline with data from URL or localStorage
+    async function initializeTimeline() {
+      try {
+        const container = document.getElementById('timelineEvents');
+        
+        // Try to get timeline data from localStorage first
+        const savedData = localStorage.getItem('currentTimeline');
+        if (savedData) {
+          const parsedData = JSON.parse(savedData);
+          if (parsedData.events && Array.isArray(parsedData.events)) {
+            await createTimelineEvents(parsedData.events);
+            return;
+          }
+        }
+
+        // If no saved data and we have a title, generate new timeline
+        if (timelineTitle) {
+          container.innerHTML = '<div class="text-center py-8"><div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mx-auto"></div><p class="mt-4 text-gray-300">Generating timeline...</p></div>';
+          
+          const events = await generateTimeline(timelineTitle);
+          if (events && events.length > 0) {
+            await createTimelineEvents(events);
+          } else {
+            container.innerHTML = '<div class="text-center py-8"><p class="text-gray-300">No events found. Try generating a new timeline.</p></div>';
+          }
+        } else {
+          container.innerHTML = '<div class="text-center py-8"><p class="text-gray-300">Click the "Chat with AI" button to generate a timeline.</p></div>';
+        }
+      } catch (error) {
+        console.error('Error initializing timeline:', error);
+        const container = document.getElementById('timelineEvents');
+        container.innerHTML = '<div class="text-center py-8"><p class="text-red-500">Error loading timeline. Please try again.</p></div>';
+      }
+    }
+
+    // Start initialization
+    initializeTimeline();
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    document.querySelectorAll('.timeline-event').forEach(event => {
+      observer.observe(event);
+    });
+  </script>
+  <script src="js/timeline-view.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/app.js"></script>
+  
+  <!-- Fix for infinite image error loops -->
+  <script>
+    // Wait for document to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("Applying improved image error handling fix...");
+      
+      // Remove all onerror handlers from images and replace with a safe one
+      const allImages = document.querySelectorAll('img');
+      allImages.forEach(img => {
+        // Remove any existing onerror handler
+        img.onerror = null;
+        
+        // Add a safe handler that doesn't cause loops
+        img.addEventListener('error', function(e) {
+          console.log(`Image load error handled safely: ${this.alt || 'unnamed image'}`);
+          
+          // Hide the image element
+          this.style.display = 'none';
+          
+          // If there's a nextElementSibling (like attribution), hide it too
+          if (this.nextElementSibling) {
+            this.nextElementSibling.style.display = 'none';
+          }
+          
+          // Prevent further error propagation
+          e.stopPropagation();
+          e.preventDefault();
+          
+          return true; // Prevent default error handling
+        }, { once: true }); // The once:true ensures the handler runs only once
+      });
+    });
+  </script>
+  <script>
+    // Chat functionality
+    const chatModal = document.getElementById('chat-modal');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const aiChatBtn = document.getElementById('aiChatBtn');
+    const closeChatBtn = document.getElementById('close-chat-btn');
+
+    // Predefined responses based on keywords
+    const predefinedResponses = {
+      'hello': 'Hello! How can I help you with this timeline?',
+      'hi': 'Hi there! I\'m ready to discuss historical events with you.',
+      'help': 'I can answer questions about events in this timeline, provide additional context, or explain historical significance.',
+      'when': 'This timeline covers events from various time periods. Is there a specific event or date you\'re interested in?',
+      'why': 'Historical events often have complex causes and effects. Could you specify which event you\'re asking about?',
+      'how': 'I can explain how historical events unfolded. Which specific aspect would you like to know more about?',
+      'what': 'I can provide information about events, people, or concepts in this timeline. What specifically would you like to know?',
+      'who': 'Many historical figures appear in this timeline. Which person are you interested in learning about?',
+      'where': 'Historical events took place in various locations. Which place are you interested in?',
+      'significance': 'Historical events often have lasting impact. I can explain the significance of specific events if you mention them.',
+      'important': 'There are several key events in this timeline that shaped history. Would you like me to highlight the most significant ones?',
+      'default': 'That\'s an interesting topic. To provide a better answer, could you specify which historical event or period you're referring to?'
+    };
+
+    // Show/hide chat modal
+    aiChatBtn.addEventListener('click', () => {
+      chatModal.classList.remove('hidden');
+    });
+
+    closeChatBtn.addEventListener('click', () => {
+      chatModal.classList.add('hidden');
+    });
+
+    // Handle chat form submission
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userMessage = chatInput.value.trim();
+      if (!userMessage) return;
+
+      // Add user message to chat
+      addMessageToChat(userMessage, 'user');
+      chatInput.value = '';
+
+      // Check if the message is asking to create a timeline
+      const isTimelineRequest = userMessage.toLowerCase().includes('timeline') && 
+        (userMessage.toLowerCase().includes('create') || 
+         userMessage.toLowerCase().includes('generate') || 
+         userMessage.toLowerCase().includes('make') ||
+         userMessage.toLowerCase().includes('about'));
+
+      if (isTimelineRequest) {
+        // Handle timeline generation
+        addMessageToChat("I'll generate a timeline for you. This might take a moment...", 'assistant');
+        
+        try {
+          // Show loading state in chat
+          const loadingMessage = addLoadingMessage();
+          
+          // Extract the topic from the user message
+          const topic = userMessage.replace(/create|generate|make|timeline|about|a|for|me|please/gi, '').trim();
+          
+          // Generate timeline
+          const events = await generateTimeline(topic);
+          
+          // Remove loading message
+          loadingMessage.remove();
+          
+          if (!events || events.length === 0) {
+            addMessageToChat("I couldn't generate any events for this topic. Please try a different historical subject.", 'assistant', true);
+            return;
+          }
+          
+          // Display success message
+          addMessageToChat(`I've created a timeline with ${events.length} events about "${topic}". It's now displayed on the page.`, 'assistant');
+          
+          // Display the events on the page
+          await createTimelineEvents(events);
+          
+          // Close the chat modal
+          setTimeout(() => {
+            chatModal.classList.add('hidden');
+          }, 2000);
+          
+          // Save to localStorage
+          localStorage.setItem('currentTimeline', JSON.stringify({
+            title: topic,
+            events: events
+          }));
+          
+        } catch (error) {
+          console.error('Error generating timeline:', error);
+          addMessageToChat("Sorry, I encountered an error while generating the timeline. Please try again.", 'assistant', true);
+        }
+      } else {
+        // Regular chat response
+        // Simulate thinking delay
+        const loadingMessage = addLoadingMessage();
+        
+        setTimeout(() => {
+          // Remove loading message
+          loadingMessage.remove();
+          
+          // Get AI response based on keywords
+          const response = getAIResponse(userMessage);
+          
+          // Add AI response to chat
+          addMessageToChat(response, 'assistant');
+        }, 1000);
+      }
+    });
+
+    // Function to determine AI response based on user input
+    function getAIResponse(userMessage) {
+      // Get the current timeline context
+      const timelineContext = getTimelineContext();
+      
+      // Convert user message to lowercase for matching
+      const lowercaseMessage = userMessage.toLowerCase();
+      
+      // Handle identity questions
+      if (lowercaseMessage.includes('who are you') || 
+          lowercaseMessage.includes('who are u') || 
+          lowercaseMessage.includes('what are you') || 
+          lowercaseMessage === 'who' || 
+          lowercaseMessage === 'what') {
+        return "I'm an AI assistant created to help with historical information. I can tell you about events in this timeline, answer questions about history, or even create new timelines for you on any historical topic.";
+      }
+      
+      // Handle greetings better
+      if (lowercaseMessage === 'hello' || lowercaseMessage === 'hi' || lowercaseMessage === 'hey') {
+        return `Hello! I'm ready to help you explore the ${timelineContext.title || 'current'} timeline. You can ask about specific events, time periods, or request a new timeline on a different topic.`;
+      }
+      
+      // Handle war-related queries
+      if (lowercaseMessage.includes('war')) {
+        // Check for specific wars
+        if (lowercaseMessage.includes('world war 1') || lowercaseMessage.includes('world war i') || lowercaseMessage.includes('ww1') || lowercaseMessage.includes('war 1')) {
+          return "World War I (1914-1918) was a global conflict that began in Europe after the assassination of Archduke Franz Ferdinand. It involved the world's great powers, assembled in two opposing alliances: the Allies and the Central Powers. Would you like me to generate a timeline specifically about World War I?";
+        }
+        if (lowercaseMessage.includes('world war 2') || lowercaseMessage.includes('world war ii') || lowercaseMessage.includes('ww2') || lowercaseMessage.includes('war 2')) {
+          return "World War II (1939-1945) was a global conflict that involved most of the world's nations—including all of the great powers. It was the deadliest conflict in human history, marked by events including the Holocaust, strategic bombing, and the only use of nuclear weapons in warfare. Would you like me to generate a timeline specifically about World War II?";
+        }
+        
+        // General war query
+        return "There have been many significant wars throughout history. Are you interested in a specific conflict like World War I, World War II, the Cold War, or perhaps wars related to a specific country or time period?";
+      }
+      
+      // Handle year-specific queries
+      const yearMatch = lowercaseMessage.match(/\b(1[0-9]{3}|20[0-2][0-9])\b/); // Match years from 1000-2029
+      if (yearMatch) {
+        const year = yearMatch[0];
+        
+        // Check if this year appears in any events
+        const eventsInYear = timelineContext.events.filter(event => 
+          event.date && event.date.includes(year)
+        );
+        
+        if (eventsInYear.length > 0) {
+          let response = `In ${year}, the following events occurred:\n`;
+          eventsInYear.forEach(event => {
+            response += `• ${event.title}: ${event.description}\n`;
+          });
+          return response;
+        } else {
+          // No events found for that year
+          let historicalContext = "";
+          // Provide context for notable years
+          if (year === "1914") historicalContext = "This was the year World War I began with the assassination of Archduke Franz Ferdinand.";
+          else if (year === "1929") historicalContext = "This was the year of the Wall Street Crash that led to the Great Depression.";
+          else if (year === "1939") historicalContext = "This was the year World War II began with Germany's invasion of Poland.";
+          else if (year === "1945") historicalContext = "This was the year World War II ended with the surrender of Germany and Japan.";
+          else if (year === "1969") historicalContext = "This was the year humans first landed on the Moon with the Apollo 11 mission.";
+          else if (year === "1991") historicalContext = "This was the year the Soviet Union was dissolved, marking the end of the Cold War.";
+          else if (year === "2001") historicalContext = "This was the year of the September 11 terrorist attacks in the United States.";
+          else historicalContext = `This year isn't specifically mentioned in the current timeline, but it may have contained important historical events.`;
+          
+          return `${historicalContext} Would you like me to generate a timeline that includes events from ${year}?`;
+        }
+      }
+      
+      // Check if the message contains specific event names from the timeline
+      const events = timelineContext.events || [];
+      for (const event of events) {
+        if (event && event.title && lowercaseMessage.includes(event.title.toLowerCase())) {
+          return `About "${event.title}" (${event.date}): ${event.description} Would you like to know more about this event or its historical context?`;
+        }
+      }
+      
+      // Check for specific time periods
+      if (timelineContext.period && lowercaseMessage.includes(timelineContext.period.toLowerCase())) {
+        return `The time period ${timelineContext.period} was a significant era in history. This timeline highlights key events from this period. Which specific aspect interests you most?`;
+      }
+      
+      // Check for questions about timeline content
+      if (lowercaseMessage.includes('what is this timeline') || 
+          lowercaseMessage.includes('what timeline') || 
+          lowercaseMessage.includes('this timeline about') ||
+          lowercaseMessage.includes('what is this about')) {
+        if (timelineContext.title) {
+          return `This timeline is about "${timelineContext.title}"${timelineContext.period ? ` covering the period ${timelineContext.period}` : ''}. It contains ${events.length} events. You can ask about specific events or request information about particular aspects of this topic.`;
+        } else {
+          return `This timeline contains ${events.length} historical events. You can ask about specific events shown on the page or request a new timeline about any historical topic you're interested in.`;
+        }
+      }
+      
+      // Check for keywords in predefined responses
+      for (const [keyword, response] of Object.entries(predefinedResponses)) {
+        if (keyword !== 'default' && lowercaseMessage.includes(keyword)) {
+          return response;
+        }
+      }
+      
+      // Improved default response
+      return `I'm not sure I understood your query about "${userMessage}". You can ask about specific events in this timeline, historical periods, or say "create a timeline about [topic]" to generate a new timeline on any historical subject you're interested in.`;
+    }
+
+    // Function to add message to chat
+    function addMessageToChat(message, role, isError = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `mb-4 flex ${role === 'user' ? 'justify-end' : ''}`;
+
+      if (role === 'user') {
+        messageDiv.innerHTML = `
+          <div class="bg-indigo-600 text-white rounded-lg p-3 max-w-xs md:max-w-md">
+            <p>${message}</p>
+          </div>
+        `;
+      } else {
+        messageDiv.innerHTML = `
+          <div class="flex-shrink-0 mr-2">
+            <div class="bg-indigo-600 rounded-full p-2">
+              <i class="fas fa-robot text-white"></i>
+            </div>
+          </div>
+          <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-xs md:max-w-md text-white ${isError ? 'text-red-300' : ''}">
+            <p>${message}</p>
+          </div>
+        `;
+      }
+
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Function to add loading message
+    function addLoadingMessage() {
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'mb-4 flex';
+      loadingDiv.innerHTML = `
+        <div class="flex-shrink-0 mr-2">
+          <div class="bg-indigo-600 rounded-full p-2">
+            <i class="fas fa-robot text-white"></i>
+          </div>
+        </div>
+        <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-xs md:max-w-md text-white">
+          <div class="flex items-center">
+            <div class="animate-pulse flex space-x-2">
+              <div class="h-2 w-2 bg-white rounded-full"></div>
+              <div class="h-2 w-2 bg-white rounded-full"></div>
+              <div class="h-2 w-2 bg-white rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      `;
+      chatMessages.appendChild(loadingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return loadingDiv;
+    }
+
+    // Function to get current timeline context
+    function getTimelineContext() {
+      const timelineTitle = document.getElementById('timelineTitle').textContent;
+      const timelinePeriod = document.getElementById('timelinePeriod').textContent;
+      const events = Array.from(document.querySelectorAll('.timeline-event')).map(event => {
+        return {
+          date: event.querySelector('.event-date')?.textContent || '',
+          title: event.querySelector('.event-title')?.textContent || '',
+          description: event.querySelector('.event-description')?.textContent || ''
+        };
+      });
+
+      return {
+        title: timelineTitle,
+        period: timelinePeriod,
+        events: events
+      };
+    }
+  </script>
+</body>
+</html> 

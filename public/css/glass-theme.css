@@ -1,0 +1,236 @@
+/* HistoryWeaver Glass Theme CSS */
+
+:root {
+  /* Glass effect variables */
+  --glass-bg: rgba(17, 25, 40, 0.75);
+  --glass-bg-light: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 16px;
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  /* Updated color palette for a more professional look */
+  --primary-accent: rgba(79, 70, 229, 0.9);
+  --primary-accent-solid: #4f46e5;
+  --secondary-accent: rgba(99, 102, 241, 0.8);
+  
+  /* Gradients */
+  --glass-gradient: linear-gradient(
+    135deg, 
+    rgba(79, 70, 229, 0.4) 0%, 
+    rgba(99, 102, 241, 0.25) 100%
+  );
+}
+
+/* Set up the base backdrop for the glass effect */
+body {
+  background-image: linear-gradient(125deg, #1f1f3f 0%, #111827 60%, #0a0a1c 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Main glassmorphism mixin-like class */
+.glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-effect-light {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  box-shadow: var(--glass-shadow);
+}
+
+/* Apply glass effect to key components */
+nav, header, .shadow-sm, footer, .app-header {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Cards and timeline items */
+.timeline-card, .card, .tile, .bg-white, .bg-gray-100, .bg-gray-200, 
+div[class*="bg-white"], div[class*="bg-gray-50"], div[class*="bg-gray-100"] {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
+}
+
+.timeline-card:hover, .card:hover, .tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Sections and content areas */
+section, main {
+  background: transparent !important;
+}
+
+/* Fix specifically for Hero section */
+.bg-gradient-to-r {
+  background: var(--glass-gradient) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+/* Buttons with glass effect */
+.bg-indigo-600, .bg-indigo-700, .bg-indigo-800, button[class*="bg-indigo"] {
+  background: var(--primary-accent) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.bg-indigo-600:hover, .bg-indigo-700:hover, .bg-indigo-800:hover, button[class*="bg-indigo"]:hover {
+  background: var(--secondary-accent) !important;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Secondary buttons */
+.bg-indigo-100, .bg-indigo-200, button[class*="bg-indigo-1"], button[class*="bg-indigo-2"] {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white !important;
+}
+
+/* Form controls */
+input, select, textarea {
+  background: rgba(30, 30, 45, 0.6) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem !important;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary-accent-solid) !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+  outline: none;
+}
+
+/* Chat modal and other modals */
+#chat-modal .bg-white, .modal-content, .dropdown-content {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#chat-messages .bg-gray-100 {
+  background: rgba(30, 30, 60, 0.4) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) / 3));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 3));
+  border-radius: 8px;
+}
+
+/* Mobile menu */
+#mobileMenu {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 0 0 10px 10px;
+}
+
+/* Ensure all text is crisp and easy to read */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+p, span, a, button {
+  font-weight: 400;
+  letter-spacing: 0.015em;
+}
+
+/* Timeline specific elements */
+.timeline-line {
+  background: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
+}
+
+.timeline-date {
+  background: var(--glass-bg-light) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 2));
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+/* Fix for category badges */
+.category-filter, button[class*="category"] {
+  background: rgba(30, 30, 60, 0.4) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) / 3));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 3));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+/* Toast notification */
+#toast {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+}
+
+/* Custom scrollbar for the glassy effect */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.8);
+}
+
+/* Fixed button styles */
+#chat-toggle-btn, #dark-mode-toggle {
+  background: var(--primary-accent) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* For loader overlay to work with glass theme */
+.loader-container {
+  background: rgba(10, 10, 25, 0.7) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+} 

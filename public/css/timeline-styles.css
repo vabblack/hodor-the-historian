@@ -1,0 +1,674 @@
+/* HistoryWeaver Timeline Styles */
+
+/* Timeline Container */
+.timeline-container {
+  position: relative;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    rgba(139, 92, 246, 0.2),
+    rgba(99, 102, 241, 0.4),
+    rgba(139, 92, 246, 0.2)
+  );
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Timeline Events */
+.timeline-event {
+  position: relative;
+  margin-bottom: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.timeline-event:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-left {
+  justify-content: flex-start;
+}
+
+.timeline-right {
+  justify-content: flex-end;
+}
+
+/* Timeline Content */
+.timeline-content {
+  position: relative;
+  width: 450px;
+}
+
+/* Timeline Card */
+.timeline-card {
+  position: relative;
+  background: rgba(21, 21, 21, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+/* Timeline Dot */
+.timeline-dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(139, 92, 246, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(139, 92, 246, 0.4);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Position dots relative to the timeline */
+.timeline-left .timeline-dot {
+  left: calc(100% + 24px);
+}
+
+.timeline-right .timeline-dot {
+  right: calc(100% + 24px);
+}
+
+/* Timeline Date */
+.timeline-date {
+  display: inline-block;
+  padding: 6px 16px;
+  background-color: rgba(243, 244, 246, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #4b5563;
+}
+
+/* Timeline Image Styles */
+.timeline-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: none;
+  margin-bottom: 15px;
+}
+
+.timeline-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+/* Remove all pattern classes - we're using real images instead */
+.timeline-card:hover .timeline-image img {
+  transform: scale(1.05);
+}
+
+/* Add a subtle border */
+.timeline-image {
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  border-radius: 0.375rem;
+}
+
+.timeline-card-content {
+  padding: 1rem;
+}
+
+.timeline-category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.timeline-event-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.timeline-event-description {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* AI Chat Button */
+#chat-toggle-btn {
+  transition: transform 0.3s ease;
+}
+
+#chat-toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Toast Notification */
+#toast {
+  transition: opacity 0.3s ease;
+}
+
+/* Category filters active state */
+.category-filter.active {
+  font-weight: 600;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .timeline-container::before {
+    left: 40px;
+  }
+
+  .timeline-event {
+    justify-content: flex-start;
+    padding-left: 80px;
+  }
+
+  .timeline-content {
+    width: calc(100% - 40px);
+    max-width: 450px;
+  }
+
+  .timeline-dot {
+    left: 30px !important;
+  }
+
+  .timeline-left,
+  .timeline-right {
+    justify-content: flex-start;
+  }
+}
+
+/* Dark Mode */
+.dark-mode {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+.dark-mode .timeline-line {
+  background-color: #4b5563;
+}
+
+.dark-mode .timeline-card {
+  background-color: #374151;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .timeline-date {
+  background-color: rgba(75, 85, 99, 0.3);
+  color: #e5e7eb;
+}
+
+.dark-mode .timeline-event-title {
+  color: #f9fafb;
+}
+
+.dark-mode .timeline-event-description {
+  color: #d1d5db;
+}
+
+/* Mode Toggle Button */
+.mode-toggle {
+  position: fixed;
+  bottom: 6rem;
+  right: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #4f46e5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Add these pattern styles for timeline images */
+.image-fallback {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+}
+
+.pattern-ww2 {
+  background-color: #2c3e50;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.pattern-invasion {
+  background-color: #34495e;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M0 0h20L0 20z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.pattern-naval {
+  background-color: #2980b9;
+  background-image: url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Ccircle cx='24' cy='24' r='20'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.pattern-dday {
+  background-color: #8e44ad;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.pattern-atomic {
+  background-color: #e74c3c;
+  background-image: url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Ccircle cx='24' cy='24' r='12'/%3E%3Ccircle cx='24' cy='24' r='20'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.pattern-victory {
+  background-color: #16a085;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Ccircle cx='20' cy='20' r='16'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Timeline container */
+.timeline-container {
+  position: relative;
+  padding: 1rem 0;
+}
+
+/* Timeline line */
+.timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background-color: #e5e7eb;
+  transform: translateX(-50%);
+}
+
+/* Timeline event */
+.timeline-event {
+  position: relative;
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.timeline-event.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Timeline event dot */
+.timeline-dot {
+  position: absolute;
+  top: 1.5rem;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background-color: #4f46e5;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* Card positioning */
+.timeline-card {
+  width: calc(50% - 2rem);
+  position: relative;
+}
+
+.timeline-event:nth-child(odd) .timeline-card {
+  margin-left: auto;
+  padding-left: 2rem;
+}
+
+.timeline-event:nth-child(even) .timeline-card {
+  padding-right: 2rem;
+}
+
+/* Card content */
+.timeline-content {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
+}
+
+/* Timeline image */
+.timeline-image {
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  border: none;
+}
+
+.timeline-image img {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.timeline-content:hover .timeline-image img {
+  transform: scale(1.05);
+}
+
+/* Timeline event date */
+.timeline-date {
+  font-weight: 600;
+  color: #4f46e5;
+  margin-bottom: 0.5rem;
+}
+
+/* Timeline title */
+.timeline-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Timeline description */
+.timeline-description {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+/* Timeline category badge */
+.timeline-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Timeline Filter */
+.timeline-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.category-filter {
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.category-filter:hover {
+  background-color: #e5e7eb;
+}
+
+.category-filter.active {
+  background-color: #4f46e5;
+  color: white;
+}
+
+/* Dark mode adjustments */
+.dark-mode .timeline-line {
+  background-color: #374151;
+}
+
+.dark-mode .timeline-content {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+.dark-mode .timeline-description {
+  color: #9ca3af;
+}
+
+.dark-mode .timeline-category {
+  background-color: #312e81;
+  color: #c7d2fe;
+}
+
+.dark-mode .category-filter {
+  background-color: #374151;
+  color: #f3f4f6;
+}
+
+.dark-mode .category-filter:hover {
+  background-color: #4b5563;
+}
+
+.dark-mode .category-filter.active {
+  background-color: #6366f1;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .timeline-line {
+    left: 2rem;
+  }
+  
+  .timeline-dot {
+    left: 2rem;
+  }
+  
+  .timeline-card {
+    width: 100%;
+    padding-left: 3rem !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* Animation for loading */
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #4f46e5;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  animation: spinner 1s linear infinite;
+}
+
+/* Hover effects */
+.timeline-card:hover .image-fallback {
+  transform: scale(1.05);
+}
+
+/* Dark mode adjustments */
+.dark-mode .timeline-image {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .pattern-ww2 { background-color: #1a252f; }
+.dark-mode .pattern-invasion { background-color: #2c3e50; }
+.dark-mode .pattern-naval { background-color: #2980b9; }
+.dark-mode .pattern-dday { background-color: #8e44ad; }
+.dark-mode .pattern-atomic { background-color: #c0392b; }
+.dark-mode .pattern-victory { background-color: #16a085; }
+.dark-mode .pattern-surrender { background-color: #2c3e50; }
+
+/* Add hover effect for patterns */
+.timeline-card:hover .pattern-ww2,
+.timeline-card:hover .pattern-invasion,
+.timeline-card:hover .pattern-naval,
+.timeline-card:hover .pattern-dday,
+.timeline-card:hover .pattern-atomic,
+.timeline-card:hover .pattern-victory {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Add poster styling to timelines */
+.postercontainer {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1rem;
+}
+
+.poster {
+  min-width: 15rem;
+  max-width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.5);
+  perspective: 1000px;
+}
+
+.poster:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background-image: linear-gradient(265deg, rgba(0, 0, 0, 0.2), transparent 15%),
+    linear-gradient(5deg, rgba(0, 0, 0, 0.2), transparent 15%),
+    linear-gradient(-5deg, rgba(0, 0, 0, 0.1), transparent 15%),
+    linear-gradient(5deg, rgba(0, 0, 0, 0.1), transparent 15%),
+    linear-gradient(-265deg, rgba(0, 0, 0, 0.2), transparent 15%),
+    linear-gradient(-5deg, rgba(0, 0, 0, 0.2), transparent 15%),
+    linear-gradient(266deg, rgba(0, 0, 0, 0.2), transparent 15%);
+  background-size: 50% 33.3333%, 50% 33.3333%, 50% 33.3333%, 50% 33.3333%,
+    50% 33.3333%, 50% 33.3333%, 50% 33.3333%;
+  background-position: left top, left top, right top, left center,
+    right center, right center, left bottom;
+}
+
+.poster__img {
+  margin: 1rem;
+  width: 90%;
+  height: 95%;
+  z-index: 1;
+  filter: sepia(30%) saturate(50%);
+}
+
+/* Add styling for timeline events with poster style */
+.timeline-event.poster-style .timeline-card {
+  min-width: 15rem;
+  max-width: 15rem;
+  background-color: white;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.5);
+  perspective: 1000px;
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-event.poster-style .timeline-card:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background-image: linear-gradient(265deg, rgba(0, 0, 0, 0.2), transparent 15%),
+    linear-gradient(5deg, rgba(0, 0, 0, 0.2), transparent 15%),
+    linear-gradient(-5deg, rgba(0, 0, 0, 0.1), transparent 15%),
+    linear-gradient(5deg, rgba(0, 0, 0, 0.1), transparent 15%),
+    linear-gradient(-265deg, rgba(0, 0, 0, 0.2), transparent 15%),
+    linear-gradient(-5deg, rgba(0, 0, 0, 0.2), transparent 15%),
+    linear-gradient(266deg, rgba(0, 0, 0, 0.2), transparent 15%);
+  background-size: 50% 33.3333%, 50% 33.3333%, 50% 33.3333%, 50% 33.3333%,
+    50% 33.3333%, 50% 33.3333%, 50% 33.3333%;
+  background-position: left top, left top, right top, left center,
+    right center, right center, left bottom;
+}
+
+.timeline-event.poster-style .timeline-image img {
+  filter: sepia(30%) saturate(50%);
+}
+
+/* Style for the timeline event in poster mode */
+.timeline-content-poster-view {
+  background-color: rgb(104, 130, 104);
+  padding: 60px 20px;
+  box-sizing: border-box;
+} 
