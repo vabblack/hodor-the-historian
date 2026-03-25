@@ -1632,11 +1632,11 @@
     // Function to add message to chat
     function addMessageToChat(message, role, isError = false) {
       const messageDiv = document.createElement('div');
-      messageDiv.className = `mb-4 flex ${role === 'user' ? 'justify-end' : ''} animate-fade-in-up`;
+      messageDiv.className = `mb-4 flex min-w-0 overflow-hidden ${role === 'user' ? 'justify-end' : 'items-start'} animate-fade-in-up`;
 
       if (role === 'user') {
         messageDiv.innerHTML = `
-          <div class="bg-indigo-600 text-white rounded-lg p-3 max-w-xs md:max-w-md">
+          <div class="bg-indigo-600 text-white rounded-lg p-3 max-w-[85%] min-w-0 break-words">
             <p>${message}</p>
           </div>
         `;
@@ -1647,7 +1647,7 @@
               <i class="fas fa-robot text-white"></i>
             </div>
           </div>
-          <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-xs md:max-w-md text-white ${isError ? 'text-red-300' : ''}">
+          <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-[85%] min-w-0 break-words text-white ${isError ? 'text-red-300' : ''}">
             <p>${message}</p>
           </div>
         `;
@@ -1660,14 +1660,14 @@
     // Function to add loading message
     function addLoadingMessage() {
       const loadingDiv = document.createElement('div');
-      loadingDiv.className = 'mb-4 flex animate-fade-in-up';
+      loadingDiv.className = 'mb-4 flex items-start min-w-0 overflow-hidden animate-fade-in-up';
       loadingDiv.innerHTML = `
         <div class="flex-shrink-0 mr-2">
           <div class="bg-indigo-600 rounded-full p-2">
             <i class="fas fa-robot text-white"></i>
           </div>
         </div>
-        <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-xs md:max-w-md text-white">
+        <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-3 max-w-[85%] min-w-0 text-white">
           <div class="flex items-center">
             <span class="mr-2">Hodor</span>
             <div class="animate-pulse flex space-x-2">
