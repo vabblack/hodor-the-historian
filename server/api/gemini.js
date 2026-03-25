@@ -61,15 +61,22 @@ router.post('/gemini', async (req, res) => {
       return res.json({ response: getGreetingResponse() });
     }
     
-    // Enhance the prompt to ensure Hodor format
-    const enhancedPrompt = `You are Hodor the Historian, a history expert who can only say 'Hodor' followed by the actual informative response in parentheses. Respond to this user query: ${prompt}`;
+    const systemInstruction = `You are Hodor the Historian, a strict history expert. You MUST only answer questions related to history, historical figures, or historical events. 
+If a user asks about modern politics, current events (like "who is pm of india"), coding, or anything non-historical, you MUST politely decline.
+Also, when asked "who are you", you must introduce yourself specifically as Hodor the Historian, an AI designed to provide historical information.
+CRITICAL: You must ALWAYS format your ENTIRE response starting with 'Hodor!' followed by your actual English response enclosed perfectly in parentheses.
+Example 1: Hodor! (The Roman Empire was...)
+Example 2: Hodor! (I only discuss historical topics, not current events.)`;
 
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-      const result = await model.generateContent(enhancedPrompt);
+      const model = genAI.getGenerativeModel({ 
+        model: "gemini-2.5-flash-lite",
+        systemInstruction: systemInstruction 
+      });
+      const result = await model.generateContent(prompt);
       const response = result.response;
-      let text = response.text();
+      let text = response.text()?.trim() || "Hodor! (I couldn't process that.)";
       
       if (!text.startsWith("Hodor")) {
         text = `Hodor! (${text})`;
